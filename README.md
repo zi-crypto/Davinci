@@ -67,7 +67,7 @@ Davinci/
 │       ├── sample_invert.jpg
 │       └── ...
 │
-├── docs/                     # Reports and diagrams
+├── docs/                    
 │   ├── system_diagram.png
 │   ├── contributions.txt
 │   └── README.md
