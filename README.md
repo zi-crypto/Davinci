@@ -38,7 +38,7 @@ The filters themselves are built from scratch to practice array manipulation, C+
 
 * **Samir Kahlawy** – Filters 1, 4, 7, 10
 * **Ziad M. Amer** – Filters 2, 5, 8, 11
-* **Ammen A. Moawad** – Filters 3, 6, 9, 12
+* **Ammen O. Ahmed** – Filters 3, 6, 9, 12
 
 ---
 
