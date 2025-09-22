@@ -17,18 +17,18 @@ The filters themselves are built from scratch to practice array manipulation, C+
 * Support for popular formats: `.jpg`, `.jpeg`, `.png`, `.bmp`
 * Implemented filters (Hero Level, 12 filters):
 
-  1. Grayscale Conversion
-  2. Black and White
-  3. Invert Image
-  4. Merge Images
-  5. Flip Image
-  6. Rotate Image
-  7. Darken and Lighten
-  8. Crop Image
-  9. Add Frame
-  10. Edge Detection
-  11. Resize Image
-  12. Blur Image
+1) Grayscale Conversion
+  2) Black and White
+  3) Invert Image
+  4) Merge Images
+  5) Flip Image
+  6) Rotate Image
+  7) Darken and Lighten
+  8) Crop Image
+  9) Add Frame
+  10) Edge Detection
+  11) Resize Image
+  12) Blur Image
 
 ---
 
