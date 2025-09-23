@@ -22,7 +22,7 @@ void applyGrayscaleFilter(Image &image) {
             image(i, j, 2) = avg;
         }
     }
-
+}
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
 
