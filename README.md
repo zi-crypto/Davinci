@@ -89,7 +89,7 @@ Davinci/
 ### Compilation (Linux/Mac example)
 
 ```bash
-g++ src/main.cpp src/filters.cpp src/menu.cpp -I include -o davinci
+g++ src/main.cpp src/filters.cpp src/menu.cpp src/stb_implementation.cpp -I include -o davinci
 ```
 
 ### Running
