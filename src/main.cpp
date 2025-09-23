@@ -14,8 +14,8 @@ int main() {
     Image image(filename);
 
     // Call your filter
-    applyGrayscaleFilter(image);
-
+    // applyGrayscale_Filter_1(image);
+    applyInvertColors_Filter_3(image); 
     cout << "Pls enter image name to store new image (with extension): ";
     cin >> filename;
 
