@@ -4,7 +4,7 @@
 #include "filters.h"
 
 using namespace std;
-
+// Demo filter to test the functionality of the code:
 void applyGrayscaleFilter(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
@@ -22,4 +22,26 @@ void applyGrayscaleFilter(Image &image) {
             image(i, j, 2) = avg;
         }
     }
+
+// MAIN FILTERS:
+// @samirkahlawy ================================ Filters (1, 4, 7, 10)
+
+
+// ====================================================================
+
+
+    
+    
+// @zi-crypto =================================== Filters (2, 5, 8, 11)
+
+
+// ====================================================================
+
+
+    
+    
+// @nytril-ark ================================== Filters (3, 6, 9, 12)
+
+
+// ====================================================================
 }
