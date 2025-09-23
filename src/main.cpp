@@ -8,15 +8,36 @@ using namespace std;
 
 int main() {
     string filename;
-    cout << "Pls enter colored image name to turn to gray scale: ";
+    cout << "Enter Your Image: ";
     cin >> filename;
 
     Image image(filename);
 
-    // Call your filter
-    applyGrayscaleFilter(image);
+    // Prompt the user to choose the Available Filters
+    int selectedFilter;
+    cout << "Select Your Wanted Filter to Apply:" << endl;
+    cout << "Filter 1: Grayscale Conversion" << endl;
+    cout << "Filter 2: Black and White" << endl;
+    cout << "Your Wanted Filter Number: ";
+    cin >> selectedFilter;
 
-    cout << "Pls enter image name to store new image (with extension): ";
+    // Call your filter
+    switch (selectedFilter)
+    {
+    case 1:
+        applyGrayscaleFilter(image);
+        break;
+    
+    case 2:
+        applyBlackAndWhiteFilter(image);
+        break;
+
+    default:
+        break;
+    }
+    
+
+    cout << "Please Enter image name to store new image (with extension): ";
     cin >> filename;
 
     image.saveImage(filename);
