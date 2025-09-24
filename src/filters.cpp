@@ -5,7 +5,7 @@
 
 using namespace std;
 // Demo filter to test the functionality of the code:
-void applyGrayscaleFilter(Image &image) {
+void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
             unsigned int avg = 0; // Initialize average value
@@ -30,7 +30,9 @@ void applyGrayscaleFilter(Image &image) {
 // ====================================================================
 
 
-    
+
+
+
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
 
@@ -38,10 +40,12 @@ void applyGrayscaleFilter(Image &image) {
 // ====================================================================
 
 
-    
+   
+
+
     
 // @nytril-ark ================================== Filters (3, 6, 9, 12)
-void applyInvertColors_Filter_3(Image &image) {
+void applyInvertColors(Image &image) {
   for (int i = 0; i < image.width; ++i) {
     for (int j = 0; j < image.height; ++j) {
       for (int k = 0; k < 3; ++k) {
@@ -51,7 +55,7 @@ void applyInvertColors_Filter_3(Image &image) {
   }
 }
 
-void  applyRotateImage_Filter_6(Image &image, int angle) {
+void  applyRotateImage(Image &image, int angle) {
   //angle hardcoded as 90 for now
   int m = image.width;
   int n = image.height;
