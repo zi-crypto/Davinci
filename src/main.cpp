@@ -32,7 +32,7 @@ int main() {
     // // ================= Ammen's Filters =================
     // applyInvertColors(image);  // Filter 3
     // applyRotateImage(image, 90);  // Filter 6
-    // applyAddColoredFrame(image, 5, 255, 0, 0);  // Filter 9
+    // applyAddColoredFrame(image, 20, 0, 250, 0, true);  // Filter 9
     // applyApplyBlur(image, 5);  // Filter 12
  
     cout << "Pls enter image name to store new image (with extension): ";

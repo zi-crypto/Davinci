@@ -71,5 +71,38 @@ void  applyRotateImage(Image &image, int angle) {
   image = rot; 
 }
 
+
+void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool decoration) {
+  if (!decoration) {
+    int rgb[3] = {r, g, b};
+    int m = image.width;
+    int n = image.height;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (i < thickness || i >= (m - thickness) || j < thickness || j >= n - thickness) { 
+          for (int k = 0; k < 3; ++k) {
+            image(i, j, k) = rgb[k]; 
+          }
+        }
+      }
+    } 
+  } else { 
+    int rgb[3] = {r, g, b};
+    int m = image.width;
+    int n = image.height;
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (i < thickness || i >= m - thickness || j < thickness || j >= n - thickness ||  ( (i < thickness * 3 && i >= thickness * 2) || 
+           (i >= m - thickness * 3 && i < m - thickness * 2)     || 
+           (j < thickness * 3 && j >= thickness * 2)             || 
+           (j >= n - thickness * 3 && j < n - thickness * 2) ) ) { 
+            for (int k = 0; k < 3; ++k) {
+            image(i, j, k) = rgb[k]; 
+          }
+        }
+      }
+    } 
+  }
+}
 // ====================================================================
 

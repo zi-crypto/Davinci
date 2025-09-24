@@ -23,7 +23,7 @@ void applyDetectEdges(Image &image);  // Filter 11
 // ================= Ammen's Filters =================
 void applyInvertColors(Image &image);  // Filter 3
 void applyRotateImage(Image &image, int angle);  // Filter 6
-void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b);  // Filter 9
+void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool decoration);  // Filter 9
 void applyApplyBlur(Image &image, int intensity);  // Filter 12
 
 
