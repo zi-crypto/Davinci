@@ -51,5 +51,21 @@ void applyInvertColors_Filter_3(Image &image) {
   }
 }
 
+void  applyRotateImage_Filter_6(Image &image, int angle) {
+  //angle hardcoded as 90 for now
+  int m = image.width;
+  int n = image.height;
+  Image rot(n, m);
+
+  for (int i = 0; i < image.width; ++i) {
+    for (int j = 0; j < image.height; ++j) {
+      for (int k = 0; k < 3; ++k) {
+        rot(j , m-1-i , k) = image(i, j, k);
+      }
+    }
+  }
+  image = rot; 
+}
+
 // ====================================================================
 
