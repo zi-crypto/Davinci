@@ -2,7 +2,8 @@
 #include <iostream>
 #include "Image_Class.h"
 #include "filters.h"
-
+#include <cmath>
+#include <vector>
 using namespace std;
 // Demo filter to test the functionality of the code:
 void applyGrayscale(Image &image) {
@@ -102,7 +103,46 @@ void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool
         }
       }
     } 
+  } 
+}
+
+void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
+  int m = image.width;
+  int n = image.height;
+  typedef vector<vector<double>> matrix;
+  Image blurred = image;
+  matrix kernel(kernelSize, vector<double>(kernelSize));
+  double kernelSum = 0;
+
+  for (int i = 0; i < kernelSize; i++) {
+    for (int j = 0; j < kernelSize; j++) {
+      kernel[i][j] = exp(-(i*i + j*j) / (2.0 * sigma * sigma)); 
+      kernelSum += kernel[i][j];
+    }
   }
+  
+  int kCenter = kernelSize / 2;
+
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      for (int k = 0; k < 3; ++k) {
+
+        double sum = 0.0;
+        for (int x = 0; x < kernelSize; x++) {
+          for (int y = 0; y < kernelSize; y++) {
+            int si = i + x - kCenter;
+            int sj = j + y - kCenter;
+            if (si >= 0 && si < m && sj >= 0 && sj < n) {
+              sum += image(si, sj, k) * kernel[x][y];
+            }
+          }
+        }
+        blurred(i, j, k) = sum / kernelSum; 
+      }
+    }
+  }
+
+  image = blurred;
 }
 // ====================================================================
 
