@@ -8,10 +8,9 @@
 
 // ================= Samir's Filters =================
 void applyGrayscale(Image &image);  // Filter 1
-void applyMerge(Image &image1, const Image &image2);  // Filter 4
+void applyMerge(Image &image1, Image &image2);  // Filter 4
 // Filter 7 (two parts)
-void applyDarkenImage(Image &image, float factor);
-void applyLightenImage(Image &image, float factor);
+void applyDarkenLighten(Image &image, double range);
 void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 10
 
 // ================= Ziad's Filters =================

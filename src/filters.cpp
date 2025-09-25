@@ -5,28 +5,85 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-// Demo filter to test the functionality of the code:
-void applyGrayscale(Image &image) {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            unsigned int avg = 0; // Initialize average value
-
-            for (int k = 0; k < 3; ++k) {
-                avg += image(i, j, k); // Accumulate pixel values
-            }
-
-            avg /= 3; // Calculate average
-
-            // Set all channels to the average value
-            image(i, j, 0) = avg;
-            image(i, j, 1) = avg;
-            image(i, j, 2) = avg;
-        }
-    }
-}
+// // Demo filter to test the functionality of the code:
+// void applyGrayscale(Image &image) {
+//     for (int i = 0; i < image.width; ++i) {
+//         for (int j = 0; j < image.height; ++j) {
+//             unsigned int avg = 0; // Initialize average value
+//
+//             for (int k = 0; k < 3; ++k) {
+//                 avg += image(i, j, k); // Accumulate pixel values
+//             }
+//
+//             avg /= 3; // Calculate average
+//
+//             // Set all channels to the average value
+//             image(i, j, 0) = avg;
+//             image(i, j, 1) = avg;
+//             image(i, j, 2) = avg;
+//         }
+//     }
+// }
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
 
+void applyGrayscale(Image &image) {
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0);
+            int green = image(i, j, 1);
+            int blue  = image(i, j, 2);
+
+            int gray = 0.299 * red + 0.587 * green + 0.114 * blue;//Luminance method is better than avg
+
+            image(i, j, 0) = gray;
+            image(i, j, 1) = gray;
+            image(i, j, 2) = gray;
+        }
+    }
+}
+
+
+
+void applyMerge(Image &image1, Image &image2) {
+    for (int i = 0; i < image1.width; ++i) {
+        for (int j = 0; j < image1.height; ++j) {
+            for (int k = 0; k < 3; ++k) {
+                image1(i, j, k) = image1(i, j, k) * 0.5 + image2(i, j, k) * 0.5;// 0.5 by defult but we can change it
+            }
+        }
+    }
+}
+
+void applyDarkenLighten(Image &image, double range) {
+    // range: from % -100  to % +100
+	range/=100;
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            for (int k = 0; k < 3; ++k) {
+                int newValue = image(i, j, k) * (1 + range);//each of pixel multiplayed of 1+range ,+1 must
+                if (newValue > 255) newValue = 255;// 255 means white pixel
+                if (newValue < 0)   newValue = 0;// 0 means black pixel
+                image(i, j, k) = newValue;
+            }
+        }
+    }
+}
+void applyDetectEdges(Image &image) {
+	applyGrayscale(image);// transform to gray scal to be more easy
+	int Threshold = 30 ;//Affects edge clarity
+	for (int i = 0; i < image.width; ++i) {
+		for (int j = 0; j < image.height; ++j) {
+			// compare between current , right and botton
+			if( abs( image(i, j, 0) - image(i+1, j, 0) ) > Threshold || abs( image(i, j, 0) - image(i, j+1, 0) ) > Threshold) {
+           		image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 0;// This means there is an edge.The pixel black (0).
+			}
+			else {
+				image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 255;// no edge ,pixel white(255)
+			}
+		}
+	}
+}
 
 // ====================================================================
 

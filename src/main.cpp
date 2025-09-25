@@ -17,23 +17,23 @@ int main() {
     //..rotation etc.. to apply that, the function will be called recursively from main.cpp
 
     // ================= Samir's Filters =================
-    // applyGrayscale(image);  // Filter 1
-    // applyMerge(image, image2);  // Filter 4
-    // applyDarkenImage(image, 0.5f);  // Filter 7a
-    // applyLightenImage(image, 1.5f);  // Filter 7b
-    // applyResizeImage(image, 200, 300);  // Filter 10
+    // applyGrayscale(image);  // Filter 1 NOTE: not working
+    // applyMerge(image, image2);  // Filter 4 NOTE: not working
+    // applyDarkenLighten(image, -90); NOTE: working
+    // applyDetectEdges(image);  //  NOTE: not working (segmentation fault)
     //
     // // ================= Ziad's Filters =================
     // applyBlackWhite(image);  // Filter 2
     // applyFlipImage(image, true);  // Filter 5 (horizontal flip)
     // applyCropImage(image, 10, 10, 100, 100);  // Filter 8
-    // applyDetectEdges(image);  // Filter 11
+    // applyResizeImage(image, 200, 300);  // Filter 10
+    
     //
     // // ================= Ammen's Filters =================
     // applyInvertColors(image);  // Filter 3
     // applyRotateImage(image, 90);  // Filter 6
     // applyAddColoredFrame(image, 20, 0, 250, 0, true);  // Filter 9
-     applyGaussianBlur(image, 14, 6.5);  // Filter 12
+    // applyGaussianBlur(image, 14, 6.5);  // Filter 12
  
     cout << "Pls enter image name to store new image (with extension): ";
     cin >> filename;
