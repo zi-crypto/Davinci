@@ -13,31 +13,29 @@ int main() {
 
     Image image(filename);
 
-    // Prompt the user to choose the Available Filters
-    int selectedFilter;
-    cout << "Select Your Wanted Filter to Apply:" << endl;
-    cout << "Filter 1: Grayscale Conversion" << endl;
-    cout << "Filter 2: Black and White" << endl;
-    cout << "Your Wanted Filter Number: ";
-    cin >> selectedFilter;
+    // applyRotateImage(image, 90);
+    // NOTE: assignment asks for 90, 180, 270..
+    // Rotation etc.. to apply that, the function will be called recursively from main.cpp
 
-    // Call your filter
-    switch (selectedFilter)
-    {
-    case 1:
-        applyGrayscale(image);
-        break;
+    // ================= Samir's Filters =================
+    // applyGrayscale(image);  // Filter 1 NOTE: not working
+    // applyMerge(image, image2);  // Filter 4 NOTE: not working
+    // applyDarkenLighten(image, -90); NOTE: working
+    // applyDetectEdges(image);  //  NOTE: not working (segmentation fault)
+
+    // ================= Ziad's Filters =================
+    // applyBlackWhite(image);  // Filter 2
+    // applyFlipImage(image, true);  // Filter 5 (horizontal flip)
+    // applyCropImage(image, 10, 10, 100, 100);  // Filter 8
+    // applyResizeImage(image, 200, 300);  // Filter 10
     
-    case 2:
-        applyBlackAndWhite(image);
-        break;
-
-    default:
-        break;
-    }
-    
-
-    cout << "Please Enter image name to store new image (with extension): ";
+    // ================= Ammen's Filters =================
+    // applyInvertColors(image);  // Filter 3
+    // applyRotateImage(image, 90);  // Filter 6
+    // applyAddColoredFrame(image, 20, 0, 250, 0, true);  // Filter 9
+    // applyGaussianBlur(image, 14, 6.5);  // Filter 12
+ 
+    cout << "Pls enter image name to store new image (with extension): ";
     cin >> filename;
 
     image.saveImage(filename);
