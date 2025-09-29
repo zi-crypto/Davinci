@@ -12,25 +12,23 @@ using namespace std;
 void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
-            int red   = image(i, j, 0);
-            int green = image(i, j, 1);
-            int blue  = image(i, j, 2);
-
-            int gray = 0.299 * red + 0.587 * green + 0.114 * blue;//Luminance method is better than avg
-
-            image(i, j, 0) = gray;
-            image(i, j, 1) = gray;
-            image(i, j, 2) = gray;
+            int red = image(i,j,0), green = image(i,j,1), blue = image(i,j,2);
+			int gray = (red + green + blue) / 3;
+			image(i,j,0)=image(i,j,1)=image(i,j,2)=gray;
         }
     }
 }
 
 // Filter 4: Merge Images
 void applyMerge(Image &image1, Image &image2) {
+	if (image1.width != image2.width || image1.height != image2.height) {
+    cout << "Error: Images must be of the same size to merge!\n";
+    return;
+	}
     for (int i = 0; i < image1.width; ++i) {
         for (int j = 0; j < image1.height; ++j) {
             for (int k = 0; k < 3; ++k) {
-                image1(i, j, k) = image1(i, j, k) * 0.5 + image2(i, j, k) * 0.5;// 0.5 by defult but we can change it
+                image1(i, j, k) = ( image1(i, j, k)+ image2(i, j, k) )/ 2;// 0.5 by defult but we can change it
             }
         }
     }
@@ -54,16 +52,18 @@ void applyDarkenLighten(Image &image, double range) {
 
 // Filter 10: Detect Image Edges
 void applyDetectEdges(Image &image) {
-	applyGrayscale(image);// transform to grayscale to be more easy
+	applyGrayscale(image);// transform to gray scal to be more easy
 	int Threshold = 30 ;//Affects edge clarity
 	for (int i = 0; i < image.width; ++i) {
 		for (int j = 0; j < image.height; ++j) {
 			// compare between current , right and botton
-			if( abs( image(i, j, 0) - image(i+1, j, 0) ) > Threshold || abs( image(i, j, 0) - image(i, j+1, 0) ) > Threshold) {
-           		image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 0;// This means there is an edge.The pixel black (0).
+			if ( (i < image.width - 1 && abs(image(i, j, 0) - image(i+1, j, 0)) > Threshold) ||
+     		(j < image.height - 1 && abs(image(i, j, 0) - image(i, j+1, 0)) > Threshold) )
+			{
+    			image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 0; // Edge → Black
 			}
 			else {
-				image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 255;// no edge ,pixel white(255)
+    			image(i, j, 0) = image(i, j, 1) = image(i, j, 2) = 255; // No edge → White
 			}
 		}
 	}

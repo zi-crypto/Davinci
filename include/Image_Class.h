@@ -164,6 +164,13 @@ public:
         this->imageData = nullptr;
     }
 
+    // ====================
+    // Check if the image is usable
+    explicit operator bool() const {
+        return imageData != nullptr && width > 0 && height > 0;
+    }
+    // ====================
+
     /**
      * @brief Loads a new image from the specified filename.
      *
