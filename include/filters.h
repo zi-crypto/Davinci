@@ -5,7 +5,6 @@
 
 #include "Image_Class.h"
 
-
 // ================= Samir's Filters =================
 void applyGrayscale(Image &image);  // Filter 1
 void applyMerge(Image &image1, Image &image2);  // Filter 4
@@ -24,6 +23,5 @@ void applyInvertColors(Image &image);  // Filter 3
 void applyRotateImage(Image &image, int angle);  // Filter 6
 void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool decoration);  // Filter 9
 void applyGaussianBlur(Image &image, int kernelSize, double sigma);  // Filter 12
-
 
 #endif // FILTERS_H

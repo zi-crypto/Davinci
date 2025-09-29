@@ -5,28 +5,12 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-// // Demo filter to test the functionality of the code:
-// void applyGrayscale(Image &image) {
-//     for (int i = 0; i < image.width; ++i) {
-//         for (int j = 0; j < image.height; ++j) {
-//             unsigned int avg = 0; // Initialize average value
-//
-//             for (int k = 0; k < 3; ++k) {
-//                 avg += image(i, j, k); // Accumulate pixel values
-//             }
-//
-//             avg /= 3; // Calculate average
-//
-//             // Set all channels to the average value
-//             image(i, j, 0) = avg;
-//             image(i, j, 1) = avg;
-//             image(i, j, 2) = avg;
-//         }
-//     }
-// }
+
+
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
 
+// Filter 1: Grayscale Conversion
 void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
@@ -43,8 +27,7 @@ void applyGrayscale(Image &image) {
     }
 }
 
-
-
+// Filter 4: Merge Images
 void applyMerge(Image &image1, Image &image2) {
     for (int i = 0; i < image1.width; ++i) {
         for (int j = 0; j < image1.height; ++j) {
@@ -55,6 +38,7 @@ void applyMerge(Image &image1, Image &image2) {
     }
 }
 
+// Filter 7: Darken and Lighten Image
 void applyDarkenLighten(Image &image, double range) {
     // range: from % -100  to % +100
 	range/=100;
@@ -69,6 +53,8 @@ void applyDarkenLighten(Image &image, double range) {
         }
     }
 }
+
+// Filter 10: Detect Image Edges
 void applyDetectEdges(Image &image) {
 	applyGrayscale(image);// transform to gray scal to be more easy
 	int Threshold = 30 ;//Affects edge clarity
@@ -84,25 +70,40 @@ void applyDetectEdges(Image &image) {
 		}
 	}
 }
-
 // ====================================================================
-
-
-
-
-
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
+// Filter 2: Black and White
+void applyBlackAndWhite(Image &image) {
+    const int threshold = 128; // Threshold for black/white decision
+    
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            unsigned int avg = 0;
 
+            for (int k = 0; k < 3; ++k) {
+                avg += image(i, j, k);
+            }
 
+            avg /= 3;
+
+            if (avg < threshold) {
+                image(i, j, 0) = 0;
+                image(i, j, 1) = 0;
+                image(i, j, 2) = 0;
+            }
+            else {
+                image(i, j, 0) = 255;
+                image(i, j, 1) = 255;
+                image(i, j, 2) = 255;
+            }
+        }
+    }
+}
 // ====================================================================
-
-
-   
-
-
     
 // @nytril-ark ================================== Filters (3, 6, 9, 12)
+// Filter 3: Invert Image
 void applyInvertColors(Image &image) {
   for (int i = 0; i < image.width; ++i) {
     for (int j = 0; j < image.height; ++j) {
@@ -113,7 +114,8 @@ void applyInvertColors(Image &image) {
   }
 }
 
-void  applyRotateImage(Image &image, int angle) {
+// Filter 6: Rotate Image
+void applyRotateImage(Image &image, int angle) {
   //angle hardcoded as 90 for now
   int m = image.width;
   int n = image.height;
@@ -129,7 +131,7 @@ void  applyRotateImage(Image &image, int angle) {
   image = rot; 
 }
 
-
+// Filter 9: Adding a Frame to the Picture
 void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool decoration) {
   if (!decoration) {
     int rgb[3] = {r, g, b};
@@ -163,6 +165,7 @@ void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool
   } 
 }
 
+// Filters 12: Blur Images
 void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
   int m = image.width;
   int n = image.height;
@@ -202,4 +205,3 @@ void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
   image = blurred;
 }
 // ====================================================================
-
