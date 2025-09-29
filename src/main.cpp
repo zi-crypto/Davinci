@@ -25,11 +25,11 @@ int main() {
     switch (selectedFilter)
     {
     case 1:
-        applyGrayscaleFilter(image);
+        applyGrayscale(image);
         break;
     
     case 2:
-        applyBlackAndWhiteFilter(image);
+        applyBlackAndWhite(image);
         break;
 
     default:

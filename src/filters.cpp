@@ -6,7 +6,7 @@
 using namespace std;
 
 // Demo filter to test the functionality of the code:
-void applyGrayscaleFilter(Image &image) {
+void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
             unsigned int avg = 0; // Initialize average value
@@ -37,7 +37,7 @@ void applyGrayscaleFilter(Image &image) {
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
 // Filter 2: Black and White
-void applyBlackAndWhiteFilter(Image &image) {
+void applyBlackAndWhite(Image &image) {
     const int threshold = 128; // Threshold for black/white decision
     
     for (int i = 0; i < image.width; ++i) {
@@ -62,6 +62,10 @@ void applyBlackAndWhiteFilter(Image &image) {
             }
         }
     }
+}
+
+// Filter 5: Flip Image
+void applyFlipImage(Image &image) {
 }
 // ====================================================================
 
