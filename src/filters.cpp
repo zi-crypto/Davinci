@@ -56,7 +56,7 @@ void applyDarkenLighten(Image &image, double range) {
 
 // Filter 10: Detect Image Edges
 void applyDetectEdges(Image &image) {
-	applyGrayscale(image);// transform to gray scal to be more easy
+	applyGrayscale(image);// transform to grayscale to be more easy
 	int Threshold = 30 ;//Affects edge clarity
 	for (int i = 0; i < image.width; ++i) {
 		for (int j = 0; j < image.height; ++j) {
@@ -74,7 +74,7 @@ void applyDetectEdges(Image &image) {
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
 // Filter 2: Black and White
-void applyBlackAndWhite(Image &image) {
+void applyBlackWhite(Image &image) {
     const int threshold = 128; // Threshold for black/white decision
     
     for (int i = 0; i < image.width; ++i) {
@@ -99,6 +99,18 @@ void applyBlackAndWhite(Image &image) {
             }
         }
     }
+}
+
+// Filter 5: Flip Image
+void applyFlipImage(Image &image, bool horizontal){
+}
+
+// Filter 8: Crop Images
+void applyCropImage(Image &image, int x, int y, int width, int height){
+}
+
+// Filter 11: Resizing Images
+void applyResizeImage(Image &image, int newWidth, int newHeight){
 }
 // ====================================================================
     

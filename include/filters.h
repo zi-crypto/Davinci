@@ -8,15 +8,14 @@
 // ================= Samir's Filters =================
 void applyGrayscale(Image &image);  // Filter 1
 void applyMerge(Image &image1, Image &image2);  // Filter 4
-// Filter 7 (two parts)
-void applyDarkenLighten(Image &image, double range);
-void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 10
+void applyDarkenLighten(Image &image, double range); // Filter 7 (two parts)
+void applyDetectEdges(Image &image);  // Filter 10
 
 // ================= Ziad's Filters =================
-void applyBlackWhite(Image &image);  // Filter 2
+void applyBlackWhite(Image &image); // Filter 2
 void applyFlipImage(Image &image, bool horizontal);  // Filter 5
 void applyCropImage(Image &image, int x, int y, int width, int height);  // Filter 8
-void applyDetectEdges(Image &image);  // Filter 11
+void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 10
 
 // ================= Ammen's Filters =================
 void applyInvertColors(Image &image);  // Filter 3
