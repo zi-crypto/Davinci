@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     string filename;
-    cout << "Enter Your Image: ";
+    cout << "Pls enter colored image name to turn to gray scale: ";
     cin >> filename;
 
     Image image(filename);
@@ -27,7 +27,7 @@ int main() {
     // applyBlackWhite(image);  // Filter 2
     // applyFlipImage(image, true);  // Filter 5 (horizontal flip)
     // applyCropImage(image, 10, 10, 100, 100);  // Filter 8
-    // applyResizeImage(image, 200, 300);  // Filter 10
+    applyResizeImage(image, 200, 300);  // Filter 10
     
     // ================= Ammen's Filters =================
     // applyInvertColors(image);  // Filter 3
