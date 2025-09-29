@@ -101,7 +101,7 @@ void applyBlackWhite(Image &image) {
 
 // Filter 5: Flip Image
 void applyFlipImage(Image &image, bool horizontal){
-    if (horizontal == true){
+    if (horizontal){
         // Swap (i, j) with (image.width - 1 - x, y)
         // Each Row is Reversed
 
