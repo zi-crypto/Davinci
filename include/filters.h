@@ -15,7 +15,7 @@ void applyDetectEdges(Image &image);  // Filter 10
 void applyBlackWhite(Image &image); // Filter 2
 void applyFlipImage(Image &image, bool horizontal);  // Filter 5
 void applyCropImage(Image &image, int x, int y, int width, int height);  // Filter 8
-void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 10
+void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 11
 
 // ================= Ammen's Filters =================
 void applyInvertColors(Image &image);  // Filter 3

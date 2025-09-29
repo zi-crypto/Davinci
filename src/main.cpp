@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     string filename;
-    cout << "Pls enter colored image name to turn to gray scale: ";
+    cout << "Enter Your Image: ";
     cin >> filename;
 
     Image image(filename);

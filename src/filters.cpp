@@ -6,9 +6,9 @@
 #include <vector>
 using namespace std;
 
-
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
+// Filter 1: Grayscale Conversion (DEMO)
 
 // Filter 1: Grayscale Conversion
 void applyGrayscale(Image &image) {
