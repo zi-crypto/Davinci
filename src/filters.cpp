@@ -145,8 +145,10 @@ void applyCropImage(Image &image, int x, int y, int width, int height){
                 }
             }
         }
+        image = cropped;
+    } else {
+        std::cerr << "Error: Invalid crop parameters (" << x << ", " << y << ", " << width << ", " << height << ") for image of size (" << image.width << ", " << image.height << ")." << std::endl;
     }
-    image = cropped;
 }
 
 // Filter 11: Resizing Images
