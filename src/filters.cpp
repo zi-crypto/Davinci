@@ -154,10 +154,12 @@ void applyCropImage(Image &image, int x, int y, int width, int height){
 // Filter 11: Resizing Images
 void applyResizeImage(Image &image, int newWidth, int newHeight){
     Image resized(newWidth, newHeight);
+    double scaleX = static_cast<double>(image.width) / newWidth;
+    double scaleY = static_cast<double>(image.height) / newHeight;
     for (int i = 0; i < newWidth; i++) {
         for (int j = 0; j < newHeight ; j++) {
-            double origI = i * (static_cast<double>(image.width) / newWidth);
-            double origJ = j * (static_cast<double>(image.height) / newHeight);
+            double origI = i * scaleX;
+            double origJ = j * scaleY;
             for (int k = 0; k < 3; ++k) {
                 resized.setPixel(i, j, k, image.getPixel(static_cast<int>(floor(origI)), static_cast<int>(floor(origJ)), k));
             }
