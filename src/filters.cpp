@@ -8,8 +8,6 @@ using namespace std;
 
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
-// Filter 1: Grayscale Conversion (DEMO)
-
 // Filter 1: Grayscale Conversion
 void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
@@ -103,14 +101,71 @@ void applyBlackWhite(Image &image) {
 
 // Filter 5: Flip Image
 void applyFlipImage(Image &image, bool horizontal){
+    if (horizontal){
+        // Swap (i, j) with (image.width - 1 - x, y)
+        // Each Row is Reversed
+
+        for (int j = 0; j < image.height; j++) {
+            for (int i = 0; i < image.width/2 ; i++) {
+                int OppositeI = image.width - 1 - i;
+                for (int k = 0; k < 3; ++k) {
+                    unsigned char temp = image.getPixel(OppositeI, j, k);
+                    image.setPixel(OppositeI, j, k, image.getPixel(i, j, k));
+                    image.setPixel(i, j, k, temp);
+                }
+            }
+        }
+    }
+    else {
+        // Vertical Flip:
+        // Swap (i, j) with (i, image.height - 1 - y)
+        // Rows' Order is reversed
+
+        for (int j = 0; j < image.height/2; j++) {
+            for (int i = 0; i < image.width ; i++) {
+                int OppositeJ = image.height - 1 - j;
+                for (int k = 0; k < 3; ++k) {
+                    unsigned char temp = image.getPixel(i, OppositeJ, k);
+                    image.setPixel(i, OppositeJ, k, image.getPixel(i, j, k));
+                    image.setPixel(i, j, k, temp);
+                }
+            }
+        }
+    }
 }
 
 // Filter 8: Crop Images
 void applyCropImage(Image &image, int x, int y, int width, int height){
+    Image cropped(width, height);
+    if (((x + width) <= image.width) && ((y + height) <= image.height) && (x >= 0) && (y >= 0)){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height ; j++) {
+                for (int k = 0; k < 3; ++k) {
+                    cropped.setPixel(i, j, k, image.getPixel(i + x, j + y , k));
+                }
+            }
+        }
+        image = cropped;
+    } else {
+        std::cerr << "Error: Invalid crop parameters (" << x << ", " << y << ", " << width << ", " << height << ") for image of size (" << image.width << ", " << image.height << ")." << std::endl;
+    }
 }
 
 // Filter 11: Resizing Images
 void applyResizeImage(Image &image, int newWidth, int newHeight){
+    Image resized(newWidth, newHeight);
+    double scaleX = static_cast<double>(image.width) / newWidth;
+    double scaleY = static_cast<double>(image.height) / newHeight;
+    for (int i = 0; i < newWidth; i++) {
+        for (int j = 0; j < newHeight ; j++) {
+            double origI = i * scaleX;
+            double origJ = j * scaleY;
+            for (int k = 0; k < 3; ++k) {
+                resized.setPixel(i, j, k, image.getPixel(static_cast<int>(floor(origI)), static_cast<int>(floor(origJ)), k));
+            }
+        }
+    }
+    image = resized;
 }
 // ====================================================================
     
