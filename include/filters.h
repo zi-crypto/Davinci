@@ -5,5 +5,10 @@
 
 #include "Image_Class.h"
 
-void applyGrayscaleFilter(Image &image);
+// Filter 1: Grayscale Conversion
+void applyGrayscale(Image &image);
+
+// Filter 2: Black and White
+void applyBlackAndWhite(Image &image);
+
 #endif // FILTERS_H

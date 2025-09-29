@@ -4,8 +4,9 @@
 #include "filters.h"
 
 using namespace std;
+
 // Demo filter to test the functionality of the code:
-void applyGrayscaleFilter(Image &image) {
+void applyGrayscale(Image &image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
             unsigned int avg = 0; // Initialize average value
@@ -22,9 +23,11 @@ void applyGrayscaleFilter(Image &image) {
             image(i, j, 2) = avg;
         }
     }
+}
 
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
+// Filter 1: Grayscale Conversion (DEMO)
 
 
 // ====================================================================
@@ -33,8 +36,37 @@ void applyGrayscaleFilter(Image &image) {
     
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
+// Filter 2: Black and White
+void applyBlackAndWhite(Image &image) {
+    const int threshold = 128; // Threshold for black/white decision
+    
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            unsigned int avg = 0;
 
+            for (int k = 0; k < 3; ++k) {
+                avg += image(i, j, k);
+            }
 
+            avg /= 3;
+
+            if (avg < threshold) {
+                image(i, j, 0) = 0;
+                image(i, j, 1) = 0;
+                image(i, j, 2) = 0;
+            }
+            else {
+                image(i, j, 0) = 255;
+                image(i, j, 1) = 255;
+                image(i, j, 2) = 255;
+            }
+        }
+    }
+}
+
+// Filter 5: Flip Image
+void applyFlipImage(Image &image) {
+}
 // ====================================================================
 
 
@@ -44,4 +76,3 @@ void applyGrayscaleFilter(Image &image) {
 
 
 // ====================================================================
-}
