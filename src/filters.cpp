@@ -161,7 +161,7 @@ void applyResizeImage(Image &image, int newWidth, int newHeight){
             double origI = i * scaleX;
             double origJ = j * scaleY;
             for (int k = 0; k < 3; ++k) {
-                resized.setPixel(i, j, k, image.getPixel(min(static_cast<int>(floor(origI)), image.width - 1), min(static_cast<int>(floor(origJ)), image.width - 1));
+                resized.setPixel(i, j, k, image.getPixel(min(static_cast<int>(floor(origI)), image.width - 1), min(static_cast<int>(floor(origJ)), image.width - 1), k));
             }
         }
     }
