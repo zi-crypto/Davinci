@@ -98,7 +98,22 @@ void showMenu(){
             askSave(image);
         }
         else if (choose == 5) {
-            applyFlipImage(image);
+            while (true){
+                cout << "Horizontal or Vertical (h/v): ";
+                string fchoice;
+                cin >> fchoice;
+                if (fchoice == "h"){
+                    applyFlipImage(image, true);
+                    break;
+                }
+                else if (fchoice == "v"){
+                    applyFlipImage(image, false);
+                    break;
+                }
+                else {
+                    cout << "Invalid Argument";
+                }
+            }
             cout << "Flip filter applied.\n";
             askSave(image);
         }
