@@ -182,8 +182,7 @@ void applyInvertColors(Image &image) {
 }
 
 // Filter 6: Rotate Image
-void applyRotateImage(Image &image, int angle) {
-  //angle hardcoded as 90 for now
+void applyRotateImage(Image &image) {
   int m = image.width;
   int n = image.height;
   Image rot(n, m);
