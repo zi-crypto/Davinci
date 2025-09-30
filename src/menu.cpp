@@ -8,7 +8,7 @@ using namespace std;
 const string red = "\033[31m";
 const string orange = "\033[38;5;208m"; 
 const string yellow = "\033[33m";
-const string blue = "\033[34m";
+const string blue = "\033[36m";
 const string reset = "\033[0m";
 
 void askSave(Image& image){
