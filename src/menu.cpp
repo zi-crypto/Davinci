@@ -91,7 +91,7 @@ void showMenu(){
         }
         else if (choose == 4) {
             string secondFilename;
-	          cout << cyan << "NOTE:" << reset;
+	          cout << blue << "NOTE:" << reset;
             cout << " Images must be of the same size to merge!\n";
             cout << "Enter second image filename to merge:  \n";
             cin >> secondFilename;
