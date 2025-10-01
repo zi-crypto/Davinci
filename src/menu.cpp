@@ -5,6 +5,7 @@
 #include "filters.h"
 using namespace std;
 
+
 const string red = "\033[31m";
 const string orange = "\033[38;5;208m"; 
 const string yellow = "\033[33m";
@@ -15,6 +16,7 @@ void askSave(Image& image){
     string filename;
     char saveChoice;
     cout << red << "Do you want to save? (y/n): " << reset;
+
     cin >> saveChoice;
     if (saveChoice == 'y' || saveChoice == 'Y') {
         cout << "Enter filename: ";
@@ -24,7 +26,6 @@ void askSave(Image& image){
 }
 
 void showMenu(){
-
     cout 
         << yellow << " ______    _______            _________  _         _______  _________\n"
         << yellow << "(  __  \\  (  ___  ) |\\     /| \\__   __/ ( (    /| (  ____ \\ \\__   __/\n"
@@ -35,8 +36,6 @@ void showMenu(){
         << red << "| (__/  ) | )   ( |   " << blue << "\\   /   ___) (___ | )  \\  " << red << "| | (____/\\ ___) (___\n"
         << red << "(______/ " << blue << " |/     \\|    \\_/    \\_______/ |/    )_)" << red << " (_______/ \\_______/\n"
         << reset;
-
-
     string filename;
     cout << "Load Image File: ";
     cin >> filename;
@@ -91,7 +90,7 @@ void showMenu(){
         }
         else if (choose == 4) {
             string secondFilename;
-	          cout << blue << "NOTE:" << reset;
+  	        cout << blue << "NOTE:" << reset;
             cout << " Images must be of the same size to merge!\n";
             cout << "Enter second image filename to merge:  \n";
             cin >> secondFilename;
@@ -138,7 +137,7 @@ void showMenu(){
             cout << "Darken/Lighten filter applied.\n";
             askSave(image);
         }
-        else if (choose == 8) {
+          else if (choose == 8) {
             int x, y, width, height;
             cout << "Enter the x and y position of the crop, separated by a space:  \n";
             cin >> x >> y;
@@ -193,6 +192,7 @@ void showMenu(){
         }
         else if (choose == 14) {
             cout << red << "Do you want to save before exit? (y/n): " << reset;
+
             char saveChoice;
             cin >> saveChoice;
             if (saveChoice == 'y' || saveChoice == 'Y') {
@@ -200,8 +200,12 @@ void showMenu(){
                 cin >> filename;
                 image.saveImage(filename);
             }
+
+
+
             cout << blue << "Exiting program. Bye!\n" << reset;
             break;
         }
     }
 }
+

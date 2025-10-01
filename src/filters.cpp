@@ -21,9 +21,14 @@ void applyGrayscale(Image &image) {
 
 // Filter 4: Merge Images
 void applyMerge(Image &image1, Image &image2) {
+	if (image1.width != image2.width || image1.height != image2.height) {
+    cout << "Error: Images must be of the same size to merge!\n";
+    return;
+	}
     for (int i = 0; i < image1.width; ++i) {
         for (int j = 0; j < image1.height; ++j) {
             for (int k = 0; k < 3; ++k) {
+
                 image1(i, j, k) = floor(( image1(i, j, k) + image2(i, j, k) ) / 2);// 0.5 by defult but we can change it
             }
         }
