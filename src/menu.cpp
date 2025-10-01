@@ -5,10 +5,18 @@
 #include "filters.h"
 using namespace std;
 
+
+const string red = "\033[31m";
+const string orange = "\033[38;5;208m"; 
+const string yellow = "\033[33m";
+const string blue = "\033[36m";
+const string reset = "\033[0m";
+
 void askSave(Image& image){
     string filename;
     char saveChoice;
-    cout << "Do you want to save? (y/n): ";
+    cout << red << "Do you want to save? (y/n): " << reset;
+
     cin >> saveChoice;
     if (saveChoice == 'y' || saveChoice == 'Y') {
         cout << "Enter filename: ";
@@ -18,23 +26,16 @@ void askSave(Image& image){
 }
 
 void showMenu(){
-    const string red = "\033[31m";
-    const string orange = "\033[38;5;208m"; 
-    const string yellow = "\033[33m";
-    const string blue = "\033[34m";
-    const string reset = "\033[0m";
-
     cout 
-        << yellow << " __   ___          ___ _        ___ ___\n"
-        << yellow << "(  _  \\ (  __  )|\\     /|\\_   _/( (    /|(  __ \\\\_   _/\n"
-        << orange << "| (  \\  )| (   ) || )   ( |   " << yellow << "| |   |  \\  ( || (    \\/   ) (   \n"
-        << red << "| |   ) || (_) || |   | |   | |   |   \\ | || |         | |   \n"
-        << orange << "| |   | ||  _  |( (   ) )   | |   | (\\ \\) || " << yellow << "|         | |   \n"
-        << red << "| |   ) || (   ) | \\ \\_/ /    | |   | | \\   || |         | |   \n"
-        << red << "| (_/  )| )   ( |  " << blue << "\\   /  _) (_| )  \\  " << red << "|| (_/\\_) (_\n"
-        << red << "(__/ " << blue << "|/     \\|   \\/   \\__/|/    ))" << red << "(__/\\___/\n"
+        << yellow << " ______    _______            _________  _         _______  _________\n"
+        << yellow << "(  __  \\  (  ___  ) |\\     /| \\__   __/ ( (    /| (  ____ \\ \\__   __/\n"
+        << orange << "| (  \\  ) | (   ) | | )   ( |    " << yellow << "| |    |  \\  ( | | (    \\/    ) (   \n"
+        << red << "| |   ) | | (___) | | |   | |    | |    |   \\ | | | |          | |   \n"
+        << orange << "| |   | | |  ___  | ( (   ) )    | |    | (\\ \\) | | " << yellow << "|          | |   \n"
+        << red << "| |   ) | | (   ) |  \\ \\_/ /     | |    | | \\   | | |          | |   \n"
+        << red << "| (__/  ) | )   ( |   " << blue << "\\   /   ___) (___ | )  \\  " << red << "| | (____/\\ ___) (___\n"
+        << red << "(______/ " << blue << " |/     \\|    \\_/    \\_______/ |/    )_)" << red << " (_______/ \\_______/\n"
         << reset;
-
     string filename;
     cout << "Load Image File: ";
     cin >> filename;
@@ -42,8 +43,9 @@ void showMenu(){
     Image image(filename);
     while (true) {
         int choose;
-        cout << "Enter your choice\n";
-        cout << R"(
+        cout << endl << "======================================================================\n";
+        cout << orange << "Enter your choice\n" << reset;
+        cout  << yellow << R"(
         0.  Load a new image
         1.  Grayscale Conversion
         2.  Black and White
@@ -56,23 +58,21 @@ void showMenu(){
         9.  Add Frame
         10. Edge Detection
         11. Resize Image
-        12. Blur Image
+        12. Gaussian Blur
         13. Save the image
         14. Exit
-        Your Option: )";
+        Your Option: )" << reset;
 
         cin >> choose;
         // TODO: CHECK IF FILE EXISTS (TRY & CATCH)
         if (choose == 0) {
-            if (image){
-                askSave(image);
-            }
-            else {
-                cout << "Load Image File: ";
-                cin >> filename;
-                Image image(filename);
-            }
-		}
+        // the if statement that was here doesn't let the user load a new image without having to close the program
+        //  if the user wants to save, he could have saved from the menu before this. Here, he loads directly. 
+          cout << red << "Load new image file: " << reset;
+          cin >> filename;
+          image.loadNewImage(filename); // used built in loading function for images 
+                                  
+		    }
         else if (choose == 1) {
             applyGrayscale(image);
             cout << "Grayscale filter applied.\n";
@@ -90,12 +90,13 @@ void showMenu(){
         }
         else if (choose == 4) {
             string secondFilename;
+  	        cout << blue << "NOTE:" << reset;
+            cout << " Images must be of the same size to merge!\n";
             cout << "Enter second image filename to merge:  \n";
             cin >> secondFilename;
             Image secondImage(secondFilename);
             applyMerge(image, secondImage);
-            cout << "Merge filter applied.\n";
-            askSave(image);
+            askSave(image); // removed a success message from here so that it only applies if the merge is done.
         }
         else if (choose == 5) {
             while (true){
@@ -111,18 +112,20 @@ void showMenu(){
                     break;
                 }
                 else {
-                    cout << "Invalid Argument";
+                    cout << red << "Invalid Argument\n" << reset;
                 }
             }
             cout << "Flip filter applied.\n";
             askSave(image);
         }
         else if (choose == 6) {
-            cout << "Angle: ";
+            cout << "Angle (90, 180, or 270): ";
             int angle;
             cin >> angle;
             int ncounts = angle/90;
-            applyRotateImage(image, ncounts);
+            for (int i = 0; i < ncounts; i++) {
+              applyRotateImage(image);
+            } 
             cout << "Rotation applied.\n";
             askSave(image);
         }
@@ -134,19 +137,62 @@ void showMenu(){
             cout << "Darken/Lighten filter applied.\n";
             askSave(image);
         }
+          else if (choose == 8) {
+            int x, y, width, height;
+            cout << "Enter the x and y position of the crop, separated by a space:  \n";
+            cin >> x >> y;
+            cout << "Enter the width and height of the crop, separated by a space:  \n";
+            cin >> width >> height; 
+            applyCropImage(image, x, y, width, height);
+            cout << "Crop image filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 9) { // NOTE: ADD BOUNDARY CHECK FOR RGB VALUES AND GENERAL ERROR HANDLING
+            int thickness, r, g, b;
+            bool decoration;
+            cout << "Enter the thickness of the frame:  \n";
+            cin >> thickness;
+            cout << "Enter the rgb values for the frame, separated by a space:  \n";
+            cin >> r >> g >> b;
+            cout << "Enter 0 for a normal frame, 1 for a decorated frame:  \n";
+            cin >> decoration;
+            applyAddColoredFrame(image, thickness, r, g, b, decoration);
+            cout << "Colored frame filter applied.\n";
+            askSave(image);
+        }
         else if (choose == 10) {
             applyDetectEdges(image);
             cout << "Detect edge filter applied.\n";
             askSave(image);
         }
+        else if (choose == 11) {
+            int width, height;
+            cout << "Enter the desired width and height, separated by a space:  \n";
+            cin >> width >> height; 
+            applyResizeImage(image, width, height);
+            cout << "Resize image filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 12) {
+            int kernelSize;
+            double sigma;
+            cout << "Enter the blur-kernel size (values closer to 3-7 are much quicker):  \n";
+            cin >> kernelSize;
+            cout << "Enter the sigma value (higher = more blur):  \n";
+            cin >> sigma;
+            applyGaussianBlur(image, kernelSize, sigma);
+            cout << "Gaussian blur image filter applied.\n";
+            askSave(image);
+        }
         else if (choose == 13) {
-            cout << "Enter filename to save (with extension .jpg/.png/.bmp/.tga): ";
+            cout << "Enter filename to save (with extension .jpg/.png/.bmp): ";
             cin >> filename;
             image.saveImage(filename);
             cout << "Image saved successfully!\n";
         }
         else if (choose == 14) {
-            cout << "Do you want to save before exit? (y/n): ";
+            cout << red << "Do you want to save before exit? (y/n): " << reset;
+
             char saveChoice;
             cin >> saveChoice;
             if (saveChoice == 'y' || saveChoice == 'Y') {
@@ -154,8 +200,12 @@ void showMenu(){
                 cin >> filename;
                 image.saveImage(filename);
             }
-            cout << "Exiting program. Bye!\n";
+
+
+
+            cout << blue << "Exiting program. Bye!\n" << reset;
             break;
         }
     }
 }
+

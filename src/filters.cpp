@@ -28,10 +28,12 @@ void applyMerge(Image &image1, Image &image2) {
     for (int i = 0; i < image1.width; ++i) {
         for (int j = 0; j < image1.height; ++j) {
             for (int k = 0; k < 3; ++k) {
-                image1(i, j, k) = ( image1(i, j, k)+ image2(i, j, k) )/ 2;// 0.5 by defult but we can change it
+
+                image1(i, j, k) = floor(( image1(i, j, k) + image2(i, j, k) ) / 2);// 0.5 by defult but we can change it
             }
         }
     }
+    cout << "Merge filter applied!\n";
 }
 
 // Filter 7: Darken and Lighten Image
@@ -182,8 +184,7 @@ void applyInvertColors(Image &image) {
 }
 
 // Filter 6: Rotate Image
-void applyRotateImage(Image &image, int angle) {
-  //angle hardcoded as 90 for now
+void applyRotateImage(Image &image) {
   int m = image.width;
   int n = image.height;
   Image rot(n, m);
