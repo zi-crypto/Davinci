@@ -305,6 +305,15 @@ void applySunlight(Image &image, double YellowScale) {
 
 // Filter: 14 oil painting
 
+  // PARAMETERS:  
+  // int kernelSize     ||  second blur sigma
+  // double sigma       ||  first blur sigma
+  // double quality     ||  rescale image for fastness
+  // double c           ||  local contrast scale
+  // double s           ||  saturation scale
+  // double blurKernel  ||  final blur kernel size
+  // double blurSigma   ||  final blur sigma
+
 void applyOilPainting(Image &image, int kernelSize, double sigma, double quality, double c, double s, double blurKernel, double blurSigma) {
   srand(time(NULL));
   applyResizeImage(image, image.width * quality, image.height * quality);
