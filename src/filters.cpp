@@ -277,9 +277,8 @@ void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
 }
 
 // Filter: 13 sunlight
-void applySunlight(Image &image) {
+void applySunlight(Image &image, double YellowScale) {
   srand(time(NULL));
-  double YellowScale = 1.1;
   double red, green, blue;
   for (int i = 0; i < image.width; ++i) {
     for (int j = 0; j < image.height; ++j) {
@@ -305,24 +304,19 @@ void applySunlight(Image &image) {
 
 
 // Filter: 14 oil painting
-void applyOilPainting(Image &image) {
-  // code from gaussian Blur, edited to do:
-  // blur + local contrast increasing + saturation increase in the same loop for efficiency.
+
+void applyOilPainting(Image &image, int kernelSize, double sigma, double quality, double c, double s, double blurKernel, double blurSigma) {
   srand(time(NULL));
-  double quality = 0.6;
   applyResizeImage(image, image.width * quality, image.height * quality);
   Image temp;
   int m = image.width;
   int n = image.height;
   typedef vector<vector<double>> matrix;
   Image oilPainting = image;
-  int kernelSize = 3;
-  double sigma = 12;
   matrix kernel(kernelSize, vector<double>(kernelSize));
   double kernelSum = 0;
 
   // Filter X: utility filter, horizontal smear/shift:
-
   temp = image;
   int maxShift = m / 100;  // max pixels to shift
   int delta;
@@ -366,12 +360,9 @@ void applyOilPainting(Image &image) {
           }
         }
         double M = sum / kernelSum; // gaussian mean
-        double s, c;
-        c = 3; // local contrast scale
-        s = 1.8; // saturation scale
         double I = image(i, j, k) * 1.0;
         int red = image(i,j,0), green = image(i,j,1), blue = image(i,j,2);
-			  double A = (red + green + blue) / 3.0;  // per pixel average
+        double A = (red + green + blue) / 3.0;  // per pixel average
         int randNum = (rand() % 8) + 1; // generating random number for noise effect
         oilPainting(i, j, k) = min(255.0, max(0.0, A + s * ((M + c * (I - M)) - A) + randNum));
       } 
@@ -379,6 +370,7 @@ void applyOilPainting(Image &image) {
   } 
 
   image = oilPainting;
-  applyGaussianBlur(image, 7, 37);
+  applyGaussianBlur(image, blurKernel, blurSigma);
 }
+
 // ====================================================================
