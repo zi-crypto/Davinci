@@ -22,5 +22,7 @@ void applyInvertColors(Image &image);  // Filter 3
 void applyRotateImage(Image &image);  // Filter 6
 void applyAddColoredFrame(Image &image, int thickness, int r, int g, int b, bool decoration);  // Filter 9
 void applyGaussianBlur(Image &image, int kernelSize, double sigma);  // Filter 12
+void applySunlight(Image &image); // Filter 13
+void applyOilPainting(Image &image); // Filter 14
 
 #endif // FILTERS_H
