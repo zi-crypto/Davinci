@@ -59,8 +59,11 @@ void showMenu(){
         10. Edge Detection
         11. Resize Image
         12. Gaussian Blur
-        13. Save the image
-        14. Exit
+        13. TV Filter
+        14. Red Tint
+        15. Blue Tint
+        16. Save the image
+        17. Exit
         Your Option: )" << reset;
 
         cin >> choose;
@@ -185,12 +188,34 @@ void showMenu(){
             askSave(image);
         }
         else if (choose == 13) {
+            applyTV(image);
+            cout << "TV filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 14) {
+            float intensity;
+            cout << "Enter red tint intensity (0.0 to 1.0): ";
+            cin >> intensity;
+            applyRedTint(image, intensity);
+            cout << "Red Tint filter applied.\n";
+            askSave(image);
+        }
+        
+        else if (choose == 15) {
+            float intensity;
+            cout << "Enter blue tint intensity (0.0 to 1.0): ";
+            cin >> intensity;
+            applyBlueTint(image, intensity);
+            cout << "Blue Tint filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 16) {
             cout << "Enter filename to save (with extension .jpg/.png/.bmp): ";
             cin >> filename;
             image.saveImage(filename);
             cout << "Image saved successfully!\n";
         }
-        else if (choose == 14) {
+        else if (choose == 17) {
             cout << red << "Do you want to save before exit? (y/n): " << reset;
 
             char saveChoice;

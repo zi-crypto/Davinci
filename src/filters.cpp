@@ -4,6 +4,7 @@
 #include "filters.h"
 #include <cmath>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 // MAIN FILTERS:
@@ -69,6 +70,56 @@ void applyDetectEdges(Image &image) {
 			}
 		}
 	}
+}
+// Filter TV: Simulate old TV effect
+void applyTV(Image &image) {
+    const double amplitude = 0.3; // Amplitude of brightness variation (increasing this increases the difference between light and dark)
+    const double frequency = 0.15; // Frequency of the wave (increasing this makes the wave repeat faster)
+
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            // sin() from -1 to +1
+             double brightness = 1.0 + amplitude * sin(j * frequency);
+            for (int k = 0; k < 3; ++k) {
+                int newValue = int(image(i, j, k) * brightness);
+                newValue = std::clamp(newValue, 0, 255);
+                image(i, j, k) = newValue;
+            }
+        }
+      }
+}
+// Extra Filter: Red Tint 
+void applyRedTint(Image &image, float intensity) {
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0) ;
+            int green = image(i, j, 1)* intensity;
+            int blue  = image(i, j, 2);
+
+            if (red > 255) red = 255;
+
+            image(i, j, 0) = red;
+            image(i, j, 1) = green;
+            image(i, j, 2) = blue;
+        }
+    }
+}
+  
+// Extra Filter: blue Tint 
+void applyBlueTint(Image &image, float intensity) {
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0) ;
+            int green = image(i, j, 1);
+            int blue  = image(i, j, 2)* intensity;
+
+            if (red > 255) red = 255;
+
+            image(i, j, 0) = red;
+            image(i, j, 1) = green;
+            image(i, j, 2) = blue;
+        }
+    }
 }
 // ====================================================================
     
