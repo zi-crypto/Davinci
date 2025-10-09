@@ -104,23 +104,8 @@ void applyRedTint(Image &image, float intensity) {
         }
     }
 }
-  
-// Extra Filter: blue Tint 
-void applyBlueTint(Image &image, float intensity) {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            int red   = image(i, j, 0) ;
-            int green = image(i, j, 1);
-            int blue  = image(i, j, 2)* intensity;
 
-            if (red > 255) red = 255;
 
-            image(i, j, 0) = red;
-            image(i, j, 1) = green;
-            image(i, j, 2) = blue;
-        }
-    }
-}
 // ====================================================================
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)

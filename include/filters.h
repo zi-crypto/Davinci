@@ -12,7 +12,6 @@ void applyDarkenLighten(Image &image, double range); // Filter 7 (two parts)
 void applyDetectEdges(Image &image);  // Filter 10
 void applyTV(Image &image);  // Filter TV
 void applyRedTint(Image &image, float intensity); // Extra Filter
-void applyBlueTint(Image &image, float intensity) ; // Extra Filter
 // ================= Ziad's Filters =================
 void applyBlackWhite(Image &image); // Filter 2
 void applyFlipImage(Image &image, bool horizontal);  // Filter 5
