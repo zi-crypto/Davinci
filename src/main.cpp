@@ -23,6 +23,8 @@ int main() {
     // applyFlipImage(image, true);  // Filter 5 (horizontal flip)
     // applyCropImage(image, 10, 10, 100, 100);  // Filter 8
     // applyResizeImage(image, 200, 300);  // Filter 10
+    // applyInfrared(image);  // Filter 17
+    // applySkew(image, 45.0);  // Filter 18
     
     // ================= Ammen's Filters =================
     // applyInvertColors(image);  // Filter 3
