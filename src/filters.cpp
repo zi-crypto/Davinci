@@ -105,6 +105,24 @@ void applyRedTint(Image &image, float intensity) {
     }
 }
 
+void applyGreenTint(Image &image) {
+  float intensity=0.5; // Adjust intensity as needed
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0)* intensity ;
+            int green = image(i, j, 1);
+            int blue  = image(i, j, 2);
+
+            if (red > 255) red = 255;
+
+            image(i, j, 0) = red;
+            image(i, j, 1) = green;
+            image(i, j, 2) = blue;
+        }
+    }
+}
+
+
 
 // ====================================================================
     

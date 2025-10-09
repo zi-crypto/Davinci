@@ -61,8 +61,9 @@ void showMenu(){
         12. Gaussian Blur
         13. TV Filter
         14. Red Tint
-        15. Save the image
-        16. Exit
+        15. Green Tint
+        16. Save the image
+        17. Exit
         Your Option: )" << reset;
 
         cin >> choose;
@@ -199,13 +200,18 @@ void showMenu(){
             cout << "Red Tint filter applied.\n";
             askSave(image);
         }
-        else if (choose == 15) {
+        else if( choose == 15) {
+            applyGreenTint(image);
+            cout << "Green Tint filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 16) {
             cout << "Enter filename to save (with extension .jpg/.png/.bmp): ";
             cin >> filename;
             image.saveImage(filename);
             cout << "Image saved successfully!\n";
         }
-        else if (choose == 16) {
+        else if (choose == 17) {
             cout << red << "Do you want to save before exit? (y/n): " << reset;
 
             char saveChoice;
