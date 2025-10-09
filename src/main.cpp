@@ -13,10 +13,10 @@ int main() {
     // Rotation etc.. to apply that, the function will be called recursively from main.cpp
 
     // ================= Samir's Filters =================
-    // applyGrayscale(image);  // Filter 1 NOTE: not working
-    // applyMerge(image, image2);  // Filter 4 NOTE: not working
+    // applyGrayscale(image);  // Filter 1 NOTE: working
+    // applyMerge(image, image2);  // Filter 4 NOTE: working
     // applyDarkenLighten(image, -90); NOTE: working
-    // applyDetectEdges(image);  //  NOTE: not working (segmentation fault)
+    // applyDetectEdges(image);  //  NOTE: working
 
     // ================= Ziad's Filters =================
     // applyBlackWhite(image);  // Filter 2
@@ -29,8 +29,7 @@ int main() {
     // applyRotateImage(image, 90);  // Filter 6
     // applyAddColoredFrame(image, 20, 0, 250, 0, true);  // Filter 9
     // applyGaussianBlur(image, 14, 6.5);  // Filter 12
- 
-    showMenu();
+    // showMenu(); commented out for testing
 
     return 0;
 }

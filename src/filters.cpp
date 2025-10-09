@@ -172,6 +172,9 @@ void applyResizeImage(Image &image, int newWidth, int newHeight){
 // ====================================================================
     
 // @nytril-ark ================================== Filters (3, 6, 9, 12)
+
+
+
 // Filter 3: Invert Image
 void applyInvertColors(Image &image) {
   for (int i = 0; i < image.width; ++i) {
@@ -272,4 +275,111 @@ void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
 
   image = blurred;
 }
+
+// Filter: 13 sunlight
+void applySunlight(Image &image, double YellowScale) {
+  srand(time(NULL));
+  double red, green, blue;
+  for (int i = 0; i < image.width; ++i) {
+    for (int j = 0; j < image.height; ++j) {
+      if (image(i, j, 0) >= 231 || image(i, j, 1) >= 231 || image(i, j, 2) >= 231) {
+        continue;
+      } else {
+        red = image(i, j, 0) * YellowScale;
+        green = image(i, j, 1) * YellowScale;
+        blue = image(i, j, 2) *  0.9;
+        image(i, j, 0) = red;
+        image(i, j, 1) = green;
+        image(i, j, 2) = blue;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+// Filter: 14 oil painting
+
+  // PARAMETERS:  
+  // int kernelSize     ||  second blur sigma
+  // double sigma       ||  first blur sigma
+  // double quality     ||  rescale image for fastness
+  // double c           ||  local contrast scale
+  // double s           ||  saturation scale
+  // double blurKernel  ||  final blur kernel size
+  // double blurSigma   ||  final blur sigma
+
+void applyOilPainting(Image &image, int kernelSize, double sigma, double quality, double c, double s, double blurKernel, double blurSigma) {
+  srand(time(NULL));
+  applyResizeImage(image, image.width * quality, image.height * quality);
+  Image temp;
+  int m = image.width;
+  int n = image.height;
+  typedef vector<vector<double>> matrix;
+  Image oilPainting = image;
+  matrix kernel(kernelSize, vector<double>(kernelSize));
+  double kernelSum = 0;
+
+  // Filter X: utility filter, horizontal smear/shift:
+  temp = image;
+  int maxShift = m / 100;  // max pixels to shift
+  int delta;
+  int X = n / 25;
+  for (int j = 0; j < n; j++) {          // column
+      delta = ((j / X) % 2 == 0) ? (rand() % maxShift) + 1 : -((rand() % maxShift) + 1);
+      for (int i = 0; i < m; i++) {      // row
+          int shifted_i = i + delta;
+          if (shifted_i < 0) shifted_i = 0;
+          if (shifted_i >= m) shifted_i = m - 1;
+
+          temp(i, j, 0) = image(shifted_i, j, 0);
+          temp(i, j, 1) = image(shifted_i, j, 1);
+          temp(i, j, 2) = image(shifted_i, j, 2);
+      }
+  }
+
+  image = temp;
+
+  for (int i = 0; i < kernelSize; i++) {
+    for (int j = 0; j < kernelSize; j++) {
+      kernel[i][j] = exp(-(i*i + j*j) / (2.0 * sigma * sigma)); 
+      kernelSum += kernel[i][j];
+    }
+  }
+  
+  int kCenter = kernelSize / 2;
+
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      for (int k = 0; k < 3; ++k) {
+
+        double sum = 0.0;
+        for (int x = 0; x < kernelSize; x++) {
+          for (int y = 0; y < kernelSize; y++) {
+            int si = i + x - kCenter;
+            int sj = j + y - kCenter;
+            if (si >= 0 && si < m && sj >= 0 && sj < n) {
+              sum += image(si, sj, k) * kernel[x][y];
+            }
+          }
+        }
+        double M = sum / kernelSum; // gaussian mean
+        double I = image(i, j, k) * 1.0;
+        int red = image(i,j,0), green = image(i,j,1), blue = image(i,j,2);
+        double A = (red + green + blue) / 3.0;  // per pixel average
+        int randNum = (rand() % 8) + 1; // generating random number for noise effect
+        oilPainting(i, j, k) = min(255.0, max(0.0, A + s * ((M + c * (I - M)) - A) + randNum));
+      } 
+    } 
+  } 
+
+  image = oilPainting;
+  applyGaussianBlur(image, blurKernel, blurSigma);
+}
+
 // ====================================================================
