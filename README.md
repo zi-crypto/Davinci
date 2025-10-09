@@ -49,14 +49,16 @@ Davinci/
 │
 ├── include/                  
 │   ├── Image_Class.h
+|   ├── menu.h
 │   ├── stb_image.h
 │   ├── stb_image_write.h
 │   └── filters.h
 │
 ├── src/                      
 │   ├── main.cpp              
-│   ├── filters.cpp           
-│   └── menu.cpp              
+│   ├── filters.cpp
+|   ├── stb_imeplementation.cpp        # Added to solve a discussed issue           
+│   └── menu.cpp           
 │
 ├── images/                   
 │   ├── input/
@@ -109,13 +111,12 @@ Here are some example transformations produced by Davinci:
 
 | Original (Input)                  | Grayscale Output                            | Inverted Output                            |
 | --------------------------------- | ------------------------------------------- | ------------------------------------------ |
-| ![Input](images/input/sample.jpg) | ![Gray](images/output/sample_grayscale.jpg) | ![Invert](images/output/sample_invert.jpg) |
+| ![Input](images/input/mario.jpg) | ![Gray](images/output/mario_grayscale.jpg) | ![Invert](images/output/mario_invert.jpg) |
 
 | Cropped Output                         | Edge Detection Output                    | Blur Output                            |
 | -------------------------------------- | ---------------------------------------- | -------------------------------------- |
-| ![Crop](images/output/sample_crop.jpg) | ![Edges](images/output/sample_edges.jpg) | ![Blur](images/output/sample_blur.jpg) |
+| ![Crop](images/output/mario_cropped.jpg) | ![Edges](images/output/mario_edges.jpg) | ![Blur](images/output/mario_blur.jpg) |
 
-*(Replace these placeholders with your real input/output images once filters are working.)*
 
 ---
 
