@@ -6,6 +6,8 @@
 #include <vector>
 using namespace std;
 
+#define _USE_MATH_DEFINES // Required for some compilers
+
 // MAIN FILTERS:
 // @samirkahlawy ================================ Filters (1, 4, 7, 10)
 // Filter 1: Grayscale Conversion
@@ -168,6 +170,46 @@ void applyResizeImage(Image &image, int newWidth, int newHeight){
         }
     }
     image = resized;
+}
+
+// Filter 17: Infrared Effect
+void applyInfrared(Image &image){
+    for (int i = 0; i < image.width; i++) {
+        for (int j = 0; j < image.height ; j++) {
+          for (int k = 0; k < 3; k++){
+            int red = image(i,j,0), green = image(i,j,1), blue = image(i,j,2);
+            int newRed = min(255.0, red*1.5), newGreen = green*0.5, newBlue = blue*0.3; // the scalers here are just artistic choices
+            image(i, j, 0) = newRed;
+            image(i, j, 1) = newGreen;
+            image(i, j, 2) = newBlue;
+          }
+        }
+      }
+}
+
+// Filter 18: Skew Image
+void applySkew(Image &image, double skewDegree){
+  float skewSlope = tan(skewDegree * M_PI  / 180.0);
+  int newWidth = image.width + abs(ceil(image.height / skewSlope));
+  Image skewed(newWidth, image.height);
+
+  for (int y = 0; y < image.height; y++){
+    for (int x = 0; x < newWidth; x++){
+      for (int k = 0; k < 3; k++){
+        skewed.setPixel(x, y, k, 255); // white background
+      }
+    }
+  }
+
+  for (int i = 0; i < image.width; i++) {
+      for (int j = 0; j < image.height ; j++) {
+        for (int k = 0; k < 3; k++){
+          int newI = i + skewSlope * j;  // shift depends on vertical position
+          skewed.setPixel(newI, j, k, image.getPixel(i, j, k));
+        }
+      }
+    }
+  image = skewed;
 }
 // ====================================================================
     

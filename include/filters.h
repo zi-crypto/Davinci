@@ -16,6 +16,8 @@ void applyBlackWhite(Image &image); // Filter 2
 void applyFlipImage(Image &image, bool horizontal);  // Filter 5
 void applyCropImage(Image &image, int x, int y, int width, int height);  // Filter 8
 void applyResizeImage(Image &image, int newWidth, int newHeight); // Filter 11
+void applyInfrared(Image &image); // Filter 17
+void applySkew(Image &image, double skewDegree = 45.0);
 
 // ================= Ammen's Filters =================
 void applyInvertColors(Image &image);  // Filter 3
