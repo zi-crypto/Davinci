@@ -28,7 +28,14 @@ The filters themselves are built from scratch to practice array manipulation, C+
   9) Add Frame
   10) Edge Detection
   11) Resize Image
-  12) Blur Image
+  12) Gaussian Blur
+  13) Sunlight Effect 
+  14) Oil Painting
+  15) Old TV Filter
+  16) Red Tint
+  17) Green Tint
+  18) Infrared View
+  19) Skewing Filter
 
 ---
 
@@ -36,9 +43,9 @@ The filters themselves are built from scratch to practice array manipulation, C+
 
 **Team Name:** Davinci
 
-* **Samir Kahlawy** – Filters 1, 4, 7, 10
-* **Ziad M. Amer** – Filters 2, 5, 8, 11
-* **Ammen O. Ahmed** – Filters 3, 6, 9, 12
+* **Samir Kahlawy** – Filters 1, 4, 7, 10 + 15, 15, 17
+* **Ziad M. Amer** – Filters 2, 5, 8, 11 + 18, 19
+* **Ammen O. Ahmed** – Filters 3, 6, 9, 12 + 13, 14
 
 ---
 
@@ -136,6 +143,11 @@ Here are some example transformations produced by Davinci:
 * **Part 1**: Menu + 6 filters (Oct 1, 2025)
 * **Part 2 (Hero Level)**: 12 filters, GitHub repo, system diagram, video demo (Oct 10, 2025)
 * **Part 3 (Winged Dragon Level)**: 20 filters + GUI, documentation, video demo, report (Oct 15, 2025)
+---
+
+## System diagram:
+
+![sys_diagram](/docs/sys_diagram.jpg)
 
 ---
 
