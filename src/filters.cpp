@@ -4,6 +4,7 @@
 #include "filters.h"
 #include <cmath>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 #define _USE_MATH_DEFINES // Required for some compilers
@@ -72,6 +73,58 @@ void applyDetectEdges(Image &image) {
 		}
 	}
 }
+
+void applyTV(Image &image) {
+    const double amplitude = 0.3; // Amplitude of brightness variation (increasing this increases the difference between light and dark)
+    const double frequency = 0.15; // Frequency of the wave (increasing this makes the wave repeat faster)
+
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            // sin() from -1 to +1
+             double brightness = 1.0 + amplitude * sin(j * frequency);
+            for (int k = 0; k < 3; ++k) {
+                int newValue = int(image(i, j, k) * brightness);
+                newValue = clamp(newValue, 0, 255);
+                image(i, j, k) = newValue;
+            }
+        }
+      }
+}
+// Extra Filter: Red Tint 
+void applyRedTint(Image &image, float intensity) {
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0) ;
+            int green = image(i, j, 1)* intensity;
+            int blue  = image(i, j, 2);
+
+            if (red > 255) red = 255;
+
+            image(i, j, 0) = red;
+            image(i, j, 1) = green;
+            image(i, j, 2) = blue;
+        }
+    }
+}
+
+void applyGreenTint(Image &image) {
+  float intensity=0.5; // Adjust intensity as needed
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            int red   = image(i, j, 0)* intensity ;
+            int green = image(i, j, 1);
+            int blue  = image(i, j, 2);
+
+            if (red > 255) red = 255;
+
+            image(i, j, 0) = red;
+            image(i, j, 1) = green;
+            image(i, j, 2) = blue;
+        }
+    }
+}
+
+
 // ====================================================================
     
 // @zi-crypto =================================== Filters (2, 5, 8, 11)
@@ -318,6 +371,7 @@ void applyGaussianBlur(Image &image, int kernelSize, double sigma) {
   image = blurred;
 }
 
+
 // Filter: 13 sunlight
 void applySunlight(Image &image, double YellowScale) {
   srand(time(NULL));
@@ -327,9 +381,9 @@ void applySunlight(Image &image, double YellowScale) {
       if (image(i, j, 0) >= 231 || image(i, j, 1) >= 231 || image(i, j, 2) >= 231) {
         continue;
       } else {
-        red = image(i, j, 0) * YellowScale;
-        green = image(i, j, 1) * YellowScale;
-        blue = image(i, j, 2) *  0.9;
+        red   = min(255.0, image(i, j, 0) * YellowScale);
+        green = min(255.0, image(i, j, 1) * YellowScale);
+        blue  = min(255.0, image(i, j, 2) * 0.9);
         image(i, j, 0) = red;
         image(i, j, 1) = green;
         image(i, j, 2) = blue;
@@ -337,7 +391,6 @@ void applySunlight(Image &image, double YellowScale) {
     }
   }
 }
-
 
 
 
