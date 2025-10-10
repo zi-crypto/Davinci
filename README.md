@@ -50,7 +50,7 @@ The filters themselves are built from scratch to practice array manipulation, C+
 ---
 
 ## Video DEMO
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3NSFLYrcOfg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/3NSFLYrcOfg/0.jpg)](https://www.youtube.com/watch?v=3NSFLYrcOfg)
 
 **Please Like, Share and Subscribe :D**
 
