@@ -5,7 +5,6 @@
 
 #include "Image_Class.h"
 
-
 // ================= Samir's Filters =================
 void applyGrayscale(Image &image);  // Filter 1
 void applyMerge(Image &image1, Image &image2);  // Filter 4
