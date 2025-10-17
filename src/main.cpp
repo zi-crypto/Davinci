@@ -31,7 +31,7 @@ int main() {
     // applyRotateImage(image, 90);  // Filter 6
     // applyAddColoredFrame(image, 20, 0, 250, 0, true);  // Filter 9
     // applyGaussianBlur(image, 14, 6.5);  // Filter 12
-     showMenu(); 
+    showMenu(); // was commented out for testing
 
     return 0;
 }

@@ -21,6 +21,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QGroupBox>
+#include <QStatusBar>
 
 
 //====================================================
@@ -30,14 +31,19 @@ Image QImageToImage(const QImage &qimg) {
     for (int y = 0; y < qimg.height(); ++y) {
         const uchar *row = qimg.scanLine(y);
         for (int x = 0; x < qimg.width(); ++x) {
-            for (int c = 0; c < 3; ++c) {
-                img.setPixel(x, y, c, row[x*4 + c]); 
-            }
+            int idx = x * 4; // 4 bytes per pixel (BGRA)
+            uchar b = row[idx + 0];
+            uchar g = row[idx + 1];
+            uchar r = row[idx + 2];
+            img.setPixel(x, y, 0, r);
+            img.setPixel(x, y, 1, g);
+            img.setPixel(x, y, 2, b);
         }
     }
 
     return img;
 }
+
 
 QImage ImageToQImage(const Image &img) {
     QImage qimg(img.width, img.height, QImage::Format_RGB32);
@@ -45,15 +51,22 @@ QImage ImageToQImage(const Image &img) {
     for (int y = 0; y < img.height; ++y) {
         uchar *row = qimg.scanLine(y);
         for (int x = 0; x < img.width; ++x) {
-            row[x*4 + 0] = img(x, y, 0); 
-            row[x*4 + 1] = img(x, y, 1); 
-            row[x*4 + 2] = img(x, y, 2); 
-            row[x*4 + 3] = 255;          
+            int idx = x * 4;
+            uchar r = img(x, y, 0);
+            uchar g = img(x, y, 1);
+            uchar b = img(x, y, 2);
+
+            // Qt expects BGRA layout
+            row[idx + 0] = b;
+            row[idx + 1] = g;
+            row[idx + 2] = r;
+            row[idx + 3] = 255;  // Alpha
         }
     }
 
     return qimg;
 }
+
 //====================================================
 
 
@@ -74,7 +87,35 @@ ImageViewer::ImageViewer(QWidget *parent)
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 
-    createFilterControls(); 
+    // Set window title
+    setWindowTitle(tr("DaVinci Image Editor"));
+    
+    // Apply modern styling
+    setStyleSheet(
+        "QDockWidget { font-size: 11pt; }"
+        "QPushButton { "
+        "   background-color: #3498db; "
+        "   color: white; "
+        "   border: none; "
+        "   border-radius: 4px; "
+        "   padding: 8px; "
+        "   font-size: 10pt; "
+        "}"
+        "QPushButton:hover { background-color: #2980b9; }"
+        "QPushButton:pressed { background-color: #21618c; }"
+        "QGroupBox { "
+        "   font-weight: bold; "
+        "   border: 1px solid #bdc3c7; "
+        "   border-radius: 5px; "
+        "   margin-top: 10px; "
+        "   padding-top: 10px; "
+        "}"
+    );
+
+    createFilterControls();
+    
+    // Show welcome message in status bar
+    statusBar()->showMessage(tr("Ready - Open an image to begin editing"), 3000);
 }
 
 static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode)
@@ -134,6 +175,12 @@ bool ImageViewer::loadFile(const QString &fileName)
     if (!fitToWindowAct->isChecked())
         imageLabel->adjustSize();
 
+    // Show success message
+    statusBar()->showMessage(tr("Loaded: %1 (%2x%3)")
+        .arg(QFileInfo(fileName).fileName())
+        .arg(image.width())
+        .arg(image.height()), 3000);
+
     return true;
 }
 
@@ -183,19 +230,18 @@ void ImageViewer::fitToWindow()
 
 void ImageViewer::about()
 {
-    QMessageBox::about(this, tr("About Image Viewer"),
-            tr("<p>The <b>Image Viewer</b> example shows how to combine QLabel "
-               "and QScrollArea to display an image. QLabel is typically used "
-               "for displaying a text, but it can also display an image. "
-               "QScrollArea provides a scrolling view around another widget. "
-               "If the child widget exceeds the size of the frame, QScrollArea "
-               "automatically provides scroll bars. </p><p>The example "
-               "demonstrates how QLabel's ability to scale its contents "
-               "(QLabel::scaledContents), and QScrollArea's ability to "
-               "automatically resize its contents "
-               "(QScrollArea::widgetResizable), can be used to implement "
-               "zooming and scaling features. </p><p>In addition the example "
-               "shows how to use QPainter to print an image.</p>"));
+    QMessageBox::about(this, tr("About DaVinci Image Editor"),
+            tr("<h2>DaVinci Image Editor</h2>"
+               "<p>A powerful image processing application with various filters and effects.</p>"
+               "<p><b>Features:</b></p>"
+               "<ul>"
+               "<li>Color adjustments (Grayscale, B&W, Invert, Tints)</li>"
+               "<li>Effects (Infrared, Sunlight, TV, Edge Detection, Blur, Oil Painting)</li>"
+               "<li>Transformations (Rotate, Flip, Skew, Resize, Crop)</li>"
+               "<li>Frames & Decorations</li>"
+               "<li>Image Merging</li>"
+               "</ul>"
+               "<p>Created with Qt and C++</p>"));
 }
 
 void ImageViewer::createActions()
@@ -282,7 +328,28 @@ void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 
 void ImageViewer::saveAs()
 {
-    // TODO: implement file saving
+    if (imageLabel->pixmap(Qt::ReturnByValue).isNull()) {
+        QMessageBox::information(this, tr("No Image"), tr("There is no image to save."));
+        return;
+    }
+
+    QFileDialog dialog(this, tr("Save File As"));
+    initializeImageFileDialog(dialog, QFileDialog::AcceptSave);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        QString fileName = dialog.selectedFiles().constFirst();
+        
+        QImage qimg = imageLabel->pixmap(Qt::ReturnByValue).toImage();
+        Image img = QImageToImage(qimg);
+        
+        try {
+            img.saveImage(fileName.toStdString());
+            statusBar()->showMessage(tr("Image saved successfully: %1").arg(fileName), 3000);
+        } catch (const std::exception& e) {
+            QMessageBox::warning(this, tr("Save Error"), 
+                tr("Could not save image: %1").arg(e.what()));
+        }
+    }
 }
 
 void ImageViewer::copy()
@@ -387,48 +454,161 @@ void ImageViewer::createFilterControls()
 void ImageViewer::createFilterControls()
 {
     QDockWidget *dock = new QDockWidget(tr("Filters"), this);
+    dock->setMinimumWidth(250);
     QWidget *dockWidget = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout(dockWidget);
 
-    auto addFilterButton = [&](const QString &name, std::function<void(Image&)> filterFunc) {
-        QGroupBox *group = new QGroupBox(name);
-        QVBoxLayout *groupLayout = new QVBoxLayout;
-
-        QPushButton *btn = new QPushButton(tr("Apply"));
-        groupLayout->addWidget(btn);
-        group->setLayout(groupLayout);
-        layout->addWidget(group);
+    auto addFilterButton = [&](const QString &name, std::function<void(Image&)> filterFunc, const QString &tooltip = "") {
+        QPushButton *btn = new QPushButton(name);
+        if (!tooltip.isEmpty()) {
+            btn->setToolTip(tooltip);
+        }
+        btn->setMinimumHeight(35);
+        layout->addWidget(btn);
 
         connect(btn, &QPushButton::clicked, this, [=]() {
             if (!imageLabel->pixmap(Qt::ReturnByValue).isNull()) {
                 QImage qimg = imageLabel->pixmap(Qt::ReturnByValue).toImage();
                 Image img = QImageToImage(qimg);
+                
+                // Apply filter
                 filterFunc(img);
+                
+                // Update image
                 imageLabel->setPixmap(QPixmap::fromImage(ImageToQImage(img)));
+                
+                // Show status message
+                statusBar()->showMessage(tr("Applied: %1").arg(name), 2000);
+            } else {
+                statusBar()->showMessage(tr("Please open an image first!"), 2000);
             }
         });
     };
 
-    addFilterButton("Grayscale", [](Image &img){ applyGrayscale(img); });
-    addFilterButton("Merge (manual second image)", [](Image &img){ /* TODO */ });
-    addFilterButton("Darken / Lighten", [](Image &img){ applyDarkenLighten(img, 0.0); });
-    addFilterButton("Detect Edges", [](Image &img){ applyDetectEdges(img); });
-    addFilterButton("TV Effect", [](Image &img){ applyTV(img); });
-    addFilterButton("Red Tint", [](Image &img){ applyRedTint(img, 1.0f); });
-    addFilterButton("Green Tint", [](Image &img){ applyGreenTint(img); });
-    addFilterButton("Black & White", [](Image &img){ applyBlackWhite(img); });
-    addFilterButton("Flip Horizontal", [](Image &img){ applyFlipImage(img, true); });
-    addFilterButton("Flip Vertical", [](Image &img){ applyFlipImage(img, false); });
-    addFilterButton("Crop Image", [](Image &img){ applyCropImage(img, 0, 0, img.width, img.height); });
-    addFilterButton("Resize Image", [](Image &img){ applyResizeImage(img, 400, 400); });
-    addFilterButton("Infrared", [](Image &img){ applyInfrared(img); });
-    addFilterButton("Skew", [](Image &img){ applySkew(img, 45.0); });
-    addFilterButton("Invert Colors", [](Image &img){ applyInvertColors(img); });
-    addFilterButton("Rotate", [](Image &img){ applyRotateImage(img); });
-    addFilterButton("Add Colored Frame", [](Image &img){ applyAddColoredFrame(img, 5, 255, 0, 0, true); });
-    addFilterButton("Gaussian Blur", [](Image &img){ applyGaussianBlur(img, 3, 5.0); });
-    addFilterButton("Sunlight", [](Image &img){ applySunlight(img, 1.1); });
-    addFilterButton("Oil Painting", [](Image &img){ applyOilPainting(img, 3, 12, 0.75, 3, 1.8, 7, 37); });
+    auto addSectionLabel = [&](const QString &text) {
+        QLabel *label = new QLabel(text);
+        QFont font = label->font();
+        font.setBold(true);
+        font.setPointSize(10);
+        label->setFont(font);
+        label->setStyleSheet("QLabel { color: #2c3e50; margin-top: 10px; }");
+        layout->addWidget(label);
+    };
+
+    // ============== COLOR ADJUSTMENTS ==============
+    addSectionLabel("🎨 Color Adjustments");
+    
+    addFilterButton("Grayscale", [](Image &img){ applyGrayscale(img); }, "Convert image to grayscale");
+    addFilterButton("Black & White", [](Image &img){ applyBlackWhite(img); }, "Convert to pure black and white");
+    addFilterButton("Invert Colors", [](Image &img){ applyInvertColors(img); }, "Invert all colors");
+    
+    addFilterButton("Darken / Lighten", [this](Image &img){ 
+        bool ok;
+        int value = QInputDialog::getInt(this, "Darken/Lighten", 
+            "Enter percentage (-100 to darken, +100 to lighten):", 0, -100, 100, 10, &ok);
+        if (ok) {
+            applyDarkenLighten(img, value);
+        }
+    }, "Adjust brightness");
+
+    addFilterButton("Red Tint", [this](Image &img){ 
+        bool ok;
+        int value = QInputDialog::getInt(this, "Red Tint", 
+            "Enter tint intensity (0-100):", 50, 0, 100, 10, &ok);
+        if (ok) {
+            applyRedTint(img, value / 100.0f);
+        }
+    }, "Apply red color tint");
+    
+    addFilterButton("Green Tint", [](Image &img){ applyGreenTint(img); }, "Apply green color tint");
+
+    // ============== EFFECTS & FILTERS ==============
+    addSectionLabel("✨ Effects & Filters");
+    
+    addFilterButton("Infrared", [](Image &img){ applyInfrared(img); }, "Simulate infrared photography");
+    addFilterButton("Sunlight", [](Image &img){ applySunlight(img, 1.1); }, "Add warm sunlight effect");
+    addFilterButton("TV Effect", [](Image &img){ applyTV(img); }, "Apply TV scan lines effect");
+    addFilterButton("Detect Edges", [](Image &img){ applyDetectEdges(img); }, "Detect and highlight edges");
+    addFilterButton("Gaussian Blur", [](Image &img){ applyGaussianBlur(img, 5, 3.0); }, "Apply blur effect");
+    addFilterButton("Oil Painting", [](Image &img){ applyOilPainting(img); }, "Transform to oil painting style");
+
+    // ============== TRANSFORMATIONS ==============
+    addSectionLabel("🔄 Transformations");
+    
+    addFilterButton("Rotate 90°", [](Image &img){ applyRotateImage(img); }, "Rotate image clockwise");
+    addFilterButton("Flip Horizontal", [](Image &img){ applyFlipImage(img, true); }, "Mirror horizontally");
+    addFilterButton("Flip Vertical", [](Image &img){ applyFlipImage(img, false); }, "Mirror vertically");
+    
+    addFilterButton("Skew", [this](Image &img){ 
+        bool ok;
+        int angle = QInputDialog::getInt(this, "Skew Image", 
+            "Enter skew angle (0-180 degrees):", 45, 0, 180, 5, &ok);
+        if (ok) {
+            applySkew(img, angle);
+        }
+    }, "Skew the image");
+
+    addFilterButton("Resize", [this](Image &img){ 
+        bool ok;
+        int width = QInputDialog::getInt(this, "Resize Image", 
+            "Enter new width:", img.width, 10, 5000, 50, &ok);
+        if (ok) {
+            int height = QInputDialog::getInt(this, "Resize Image", 
+                "Enter new height:", img.height, 10, 5000, 50, &ok);
+            if (ok) {
+                applyResizeImage(img, width, height);
+            }
+        }
+    }, "Resize to custom dimensions");
+
+    addFilterButton("Crop", [this](Image &img){ 
+        bool ok;
+        int x = QInputDialog::getInt(this, "Crop Image", 
+            "Enter X position (left):", 0, 0, img.width-1, 10, &ok);
+        if (ok) {
+            int y = QInputDialog::getInt(this, "Crop Image", 
+                "Enter Y position (top):", 0, 0, img.height-1, 10, &ok);
+            if (ok) {
+                int w = QInputDialog::getInt(this, "Crop Image", 
+                    "Enter crop width:", img.width/2, 1, img.width-x, 10, &ok);
+                if (ok) {
+                    int h = QInputDialog::getInt(this, "Crop Image", 
+                        "Enter crop height:", img.height/2, 1, img.height-y, 10, &ok);
+                    if (ok) {
+                        applyCropImage(img, x, y, w, h);
+                    }
+                }
+            }
+        }
+    }, "Crop to specific area");
+
+    // ============== FRAMES & DECORATION ==============
+    addSectionLabel("🖼️ Frames & Decoration");
+    
+    addFilterButton("Add Colored Frame", [](Image &img){ 
+        applyAddColoredFrame(img, 10, 255, 0, 0, true); 
+    }, "Add decorative frame");
+
+    // ============== ADVANCED ==============
+    addSectionLabel("🔧 Advanced");
+    
+    addFilterButton("Merge Images", [this](Image &img){ 
+        QString fileName = QFileDialog::getOpenFileName(this, 
+            tr("Select Image to Merge"), "", tr("Images (*.png *.jpg *.jpeg *.bmp)"));
+        if (!fileName.isEmpty()) {
+            try {
+                Image img2(fileName.toStdString());
+                if (img.width == img2.width && img.height == img2.height) {
+                    applyMerge(img, img2);
+                } else {
+                    QMessageBox::warning(this, "Error", 
+                        "Images must have the same dimensions to merge!");
+                }
+            } catch (...) {
+                QMessageBox::warning(this, "Error", "Failed to load merge image!");
+            }
+        }
+    }, "Merge with another image");
 
     layout->addStretch();
     dockWidget->setLayout(layout);

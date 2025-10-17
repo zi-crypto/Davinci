@@ -1,0 +1,9 @@
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/untitled.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/edit_cache.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/rebuild_cache.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/list_install_components.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/install.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/install/local.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/install/strip.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/untitled_autogen_timestamp_deps.dir
+D:/FCAI/Year 2/Semester 1/OOP/davinci/build/CMakeFiles/untitled_autogen.dir

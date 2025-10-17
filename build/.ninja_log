@@ -1,0 +1,27 @@
+# ninja log v6
+19	3071	7822452745920865	untitled_autogen/timestamp	f22c4e35a8202709
+3108	6228	7822452747866512	CMakeFiles/untitled.dir/stb_implementation.cpp.obj	6125f02ff920c82b
+19	3071	7822452745920865	untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+19	3071	7822452745920865	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/timestamp	f22c4e35a8202709
+19	3071	7822452745920865	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+3085	11834	7822452747634829	CMakeFiles/untitled.dir/main.cpp.obj	92f5f3bb644ec2d5
+3103	5676	7822452747819593	CMakeFiles/untitled.dir/filters.cpp.obj	3a87a06f94ec6a8e
+3090	9923	7822452747689489	CMakeFiles/untitled.dir/mainwindow.cpp.obj	90aa6774bb17293e
+3081	12145	7822452747594686	CMakeFiles/untitled.dir/untitled_autogen/mocs_compilation.cpp.obj	44bcb83f46fdc9c4
+3096	13300	7822452747749579	CMakeFiles/untitled.dir/imageviewer.cpp.obj	3b96950283ff58ff
+13300	14029	7822452849790554	untitled.exe	55895cd08edcbed6
+93	5540	7824285867867394	untitled_autogen/timestamp	f22c4e35a8202709
+93	5540	7824285867867394	untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+93	5540	7824285867867394	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/timestamp	f22c4e35a8202709
+93	5540	7824285867867394	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+5587	10069	7824285870825940	CMakeFiles/untitled.dir/filters.cpp.obj	3a87a06f94ec6a8e
+5564	15259	7824285870605951	CMakeFiles/untitled.dir/mainwindow.cpp.obj	90aa6774bb17293e
+5553	18323	7824285870485942	CMakeFiles/untitled.dir/main.cpp.obj	92f5f3bb644ec2d5
+5544	18460	7824285870405921	CMakeFiles/untitled.dir/untitled_autogen/mocs_compilation.cpp.obj	44bcb83f46fdc9c4
+80	604	7824287197675248	untitled_autogen/timestamp	f22c4e35a8202709
+80	604	7824287197675248	untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+80	604	7824287197675248	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/timestamp	f22c4e35a8202709
+80	604	7824287197675248	D:/FCAI/Year 2/Semester 1/OOP/davinci/build/untitled_autogen/mocs_compilation.cpp	f22c4e35a8202709
+606	8013	7824287202935047	CMakeFiles/untitled.dir/mainwindow.cpp.obj	90aa6774bb17293e
+614	13219	7824287203025058	CMakeFiles/untitled.dir/imageviewer.cpp.obj	3b96950283ff58ff
+13219	15270	7824287329074895	untitled.exe	55895cd08edcbed6

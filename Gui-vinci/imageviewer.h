@@ -24,7 +24,8 @@
 #include <QPushButton>
 #include <QDockWidget>
 #include <QVBoxLayout>
-#include <QLabel> 
+#include <QLabel>
+#include <QInputDialog> 
 
 class ImageViewer : public QMainWindow
 {
