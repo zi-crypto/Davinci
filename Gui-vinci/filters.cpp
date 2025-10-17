@@ -24,10 +24,10 @@ void applyGrayscale(Image &image) {
 
 // Filter 4: Merge Images
 void applyMerge(Image &image1, Image &image2) {
-	if (image1.width != image2.width || image1.height != image2.height) {
-    cout << "Error: Images must be of the same size to merge!\n";
-    return;
-	}
+	// if (image1.width != image2.width || image1.height != image2.height) {
+  //   cout << "Error: Images must be of the same size to merge!\n";
+  //   return;
+	// }
     for (int i = 0; i < image1.width; ++i) {
         for (int j = 0; j < image1.height; ++j) {
             for (int k = 0; k < 3; ++k) {
@@ -94,11 +94,13 @@ void applyTV(Image &image) {
 void applyRedTint(Image &image, float intensity) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
-            int red   = image(i, j, 0) ;
-            int green = image(i, j, 1)* intensity;
-            int blue  = image(i, j, 2);
+            int red   = image(i, j, 0);
+            int green = image(i, j, 1) * (1.0 - intensity);  // Reduce green based on intensity
+            int blue  = image(i, j, 2) * (1.0 - intensity);  // Reduce blue based on intensity
 
             if (red > 255) red = 255;
+            if (green < 0) green = 0;
+            if (blue < 0) blue = 0;
 
             image(i, j, 0) = red;
             image(i, j, 1) = green;
@@ -218,7 +220,7 @@ void applyResizeImage(Image &image, int newWidth, int newHeight){
             double origI = i * scaleX;
             double origJ = j * scaleY;
             for (int k = 0; k < 3; ++k) {
-                resized.setPixel(i, j, k, image.getPixel(min(static_cast<int>(floor(origI)), image.width - 1), min(static_cast<int>(floor(origJ)), image.width - 1), k));
+                resized.setPixel(i, j, k, image.getPixel(min(static_cast<int>(floor(origI)), image.width - 1), min(static_cast<int>(floor(origJ)), image.height - 1), k));
             }
         }
     }
@@ -231,7 +233,7 @@ void applyInfrared(Image &image){
         for (int j = 0; j < image.height ; j++) {
           for (int k = 0; k < 3; k++){
             int red = image(i,j,0), green = image(i,j,1), blue = image(i,j,2);
-            int newRed = min(255.0, red*1.5), newGreen = green*0.5, newBlue = blue*0.3; // the scalers here are just artistic choices
+            int newRed = min(255.0, red*1.5), newGreen = green*0.7, newBlue = blue*0.3; // Enhanced red, reduced blue/green
             image(i, j, 0) = newRed;
             image(i, j, 1) = newGreen;
             image(i, j, 2) = newBlue;

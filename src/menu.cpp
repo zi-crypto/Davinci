@@ -59,8 +59,15 @@ void showMenu(){
         10. Edge Detection
         11. Resize Image
         12. Gaussian Blur
-        13. Save the image
-        14. Exit
+        13. Sunlight Effect 
+        14. Oil Painting
+        15. Old TV Filter
+        16. Red Tint
+        17. Green Tint
+        18. Infrared View
+        19. Skewing Filter
+        20. Save the image
+        21. Exit
         Your Option: )" << reset;
 
         cin >> choose;
@@ -184,13 +191,33 @@ void showMenu(){
             cout << "Gaussian blur image filter applied.\n";
             askSave(image);
         }
-        else if (choose == 13) {
+        else if (choose == 15) {
+            applyTV(image);
+            cout << "TV filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 16) {
+            float intensity;
+            cout << blue << "NOTE: " << reset << "applying both Red and Green Tint will result in the purple Wano effect." << endl;
+            cout << "Enter red tint intensity (0.0 to 1.0): ";
+            cin >> intensity;
+            applyRedTint(image, intensity);
+            cout << "Red Tint filter applied.\n";
+            askSave(image);
+        }
+        else if( choose == 17) {
+            cout << blue << "NOTE: " << reset << "applying both Red and Green Tint will result in the purple Wano effect." << endl;
+            applyGreenTint(image);
+            cout << "Green Tint filter applied.\n";
+            askSave(image);
+        }
+        else if (choose == 20) {
             cout << "Enter filename to save (with extension .jpg/.png/.bmp): ";
             cin >> filename;
             image.saveImage(filename);
             cout << "Image saved successfully!\n";
         }
-        else if (choose == 14) {
+        else if (choose == 21) {
             cout << red << "Do you want to save before exit? (y/n): " << reset;
 
             char saveChoice;
@@ -200,12 +227,51 @@ void showMenu(){
                 cin >> filename;
                 image.saveImage(filename);
             }
+          cout << blue << "Exiting program. Bye!\n" << reset;
+          break;
+        } else if (choose == 13) {
+            double yellowness;
+            cout << "Enter yellow intensity of the effect (default 1.1): ";
+            cin >> yellowness;
+            applySunlight(image, yellowness);      
+            cout << "Sunlight filter applied.\n";
+            askSave(image);
+        } else if (choose == 14) {
+          int kernelSize;
+          double sigma, quality, c, s, blurKernel, blurSigma;
 
+          cout << blue << "Recommended: kernelSize = 3, sigma = 12" << reset << endl;
+          cout << "Enter kernel size and sigma for initial blur: ";
+          cin >> kernelSize >> sigma;
 
+          cout << blue << "Recommended: quality = 0.75" << reset << endl;
+          cout << "Enter quality (resize factor): ";
+          cin >> quality;
 
-            cout << blue << "Exiting program. Bye!\n" << reset;
-            break;
+          cout << blue << "Recommended: contrast c = 3, saturation s = 1.8" << reset << endl;
+          cout << "Enter contrast scale (c) and saturation scale (s): ";
+          cin >> c >> s;
+
+          cout << blue << "Recommended: blurKernel = 7, blurSigma = 37" << reset << endl;
+          cout << "Enter blur kernel size and blur sigma for final blur: ";
+          cin >> blurKernel >> blurSigma;
+
+          applyOilPainting(image, kernelSize, sigma, quality, c, s, blurKernel, blurSigma);
+          cout << "Oil Painting filter applied.\n";
+          askSave(image);
+        } else if (choose == 18) {
+            applyInfrared(image);
+            cout << "Infrared view filter applied.\n";
+            askSave(image);
+        } else if (choose == 19) {
+            double skewDeg = 45.0;
+            // cout << "Enter the skew degree (default 45): "; // commented out because it doesn't handle other angles yet
+            applySkew(image, skewDeg);
+            cout << "Skewing image filter applied.\n";
+            askSave(image);
         }
+        
+
     }
 }
 

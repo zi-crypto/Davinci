@@ -28,7 +28,14 @@ The filters themselves are built from scratch to practice array manipulation, C+
   9) Add Frame
   10) Edge Detection
   11) Resize Image
-  12) Blur Image
+  12) Gaussian Blur
+  13) Sunlight Effect 
+  14) Oil Painting
+  15) Old TV Filter
+  16) Red Tint
+  17) Green Tint
+  18) Infrared View
+  19) Skewing Filter
 
 ---
 
@@ -36,9 +43,16 @@ The filters themselves are built from scratch to practice array manipulation, C+
 
 **Team Name:** Davinci
 
-* **Samir Kahlawy** – Filters 1, 4, 7, 10
-* **Ziad M. Amer** – Filters 2, 5, 8, 11
-* **Ammen O. Ahmed** – Filters 3, 6, 9, 12
+* **Samir Kahlawy** – Filters 1, 4, 7, 10 + 15, 15, 17
+* **Ziad M. Amer** – Filters 2, 5, 8, 11 + 18, 19
+* **Ammen O. Ahmed** – Filters 3, 6, 9, 12 + 13, 14
+
+---
+
+## Video DEMO
+[![Watch the video](https://img.youtube.com/vi/3NSFLYrcOfg/0.jpg)](https://www.youtube.com/watch?v=3NSFLYrcOfg)
+
+**Please Like, Share and Subscribe :D**
 
 ---
 
@@ -49,14 +63,16 @@ Davinci/
 │
 ├── include/                  
 │   ├── Image_Class.h
+|   ├── menu.h
 │   ├── stb_image.h
 │   ├── stb_image_write.h
 │   └── filters.h
 │
 ├── src/                      
 │   ├── main.cpp              
-│   ├── filters.cpp           
-│   └── menu.cpp              
+│   ├── filters.cpp
+|   ├── stb_imeplementation.cpp        # Added to solve a discussed issue           
+│   └── menu.cpp           
 │
 ├── images/                   
 │   ├── input/
@@ -109,13 +125,12 @@ Here are some example transformations produced by Davinci:
 
 | Original (Input)                  | Grayscale Output                            | Inverted Output                            |
 | --------------------------------- | ------------------------------------------- | ------------------------------------------ |
-| ![Input](images/input/sample.jpg) | ![Gray](images/output/sample_grayscale.jpg) | ![Invert](images/output/sample_invert.jpg) |
+| ![Input](images/input/mario.jpg) | ![Gray](images/output/mario_grayscale.jpg) | ![Invert](images/output/mario_invert.jpg) |
 
 | Cropped Output                         | Edge Detection Output                    | Blur Output                            |
 | -------------------------------------- | ---------------------------------------- | -------------------------------------- |
-| ![Crop](images/output/sample_crop.jpg) | ![Edges](images/output/sample_edges.jpg) | ![Blur](images/output/sample_blur.jpg) |
+| ![Crop](images/output/mario_cropped.jpg) | ![Edges](images/output/mario_edges.jpg) | ![Blur](images/output/mario_blur.jpg) |
 
-*(Replace these placeholders with your real input/output images once filters are working.)*
 
 ---
 
@@ -135,6 +150,11 @@ Here are some example transformations produced by Davinci:
 * **Part 1**: Menu + 6 filters (Oct 1, 2025)
 * **Part 2 (Hero Level)**: 12 filters, GitHub repo, system diagram, video demo (Oct 10, 2025)
 * **Part 3 (Winged Dragon Level)**: 20 filters + GUI, documentation, video demo, report (Oct 15, 2025)
+---
+
+## System diagram:
+
+![sys_diagram](/docs/sys_diagram.jpg)
 
 ---
 
