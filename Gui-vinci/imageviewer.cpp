@@ -94,15 +94,15 @@ ImageViewer::ImageViewer(QWidget *parent)
     setStyleSheet(
         "QDockWidget { font-size: 11pt; }"
         "QPushButton { "
-        "   background-color: #3498db; "
+        "   background-color: #D97657; "
         "   color: white; "
         "   border: none; "
         "   border-radius: 4px; "
         "   padding: 8px; "
         "   font-size: 10pt; "
         "}"
-        "QPushButton:hover { background-color: #2980b9; }"
-        "QPushButton:pressed { background-color: #21618c; }"
+        "QPushButton:hover { background-color: #A35E47; }"
+        "QPushButton:pressed { background-color: #7B4836; }"
         "QGroupBox { "
         "   font-weight: bold; "
         "   border: 1px solid #bdc3c7; "
@@ -491,7 +491,7 @@ void ImageViewer::createFilterControls()
         font.setBold(true);
         font.setPointSize(10);
         label->setFont(font);
-        label->setStyleSheet("QLabel { color: #2c3e50; margin-top: 10px; }");
+        label->setStyleSheet("QLabel { color: #262624; margin-top: 10px; }");
         layout->addWidget(label);
     };
 
