@@ -22,6 +22,8 @@
 #include <QPrinter>
 #include <QGroupBox>
 #include <QStatusBar>
+#include <QDesktopServices>
+#include <QUrl>
 
 
 //====================================================
@@ -609,6 +611,23 @@ void ImageViewer::createFilterControls()
             }
         }
     }, "Merge with another image");
+
+    // ============== EXTERNAL TOOLS ==============
+    // Add a standalone button that doesn't require an image
+    QPushButton *geminiBtn = new QPushButton("HUG YOURSELF");
+    geminiBtn->setToolTip("Open in browser");
+    geminiBtn->setMinimumHeight(35);
+    layout->addWidget(geminiBtn);
+    
+    connect(geminiBtn, &QPushButton::clicked, this, [this]() {
+        QUrl url("https://gemini.google.com/share/ed81b794dc6f");
+        if (!QDesktopServices::openUrl(url)) {
+            QMessageBox::warning(this, "Error", 
+                "Failed to open browser. Please visit: https://gemini.google.com/share/ed81b794dc6f");
+        } else {
+            statusBar()->showMessage(tr("Opening in browser..."), 2000);
+        }
+    });
 
     layout->addStretch();
     dockWidget->setLayout(layout);
